@@ -105,7 +105,7 @@ class LoginViewController: UIViewController {
                         print("Successfully obtained Student Locations data from Parse")
 
                         // After all are successful, completeLogin
-                        self.completeLogin()
+                        self.goToMainNavigationControllerOfApp()
 
                     } // getStudentLocations
                 } // getAStudentLocation

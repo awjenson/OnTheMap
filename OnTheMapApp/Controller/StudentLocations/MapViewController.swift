@@ -14,6 +14,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: - Properties
     var studentLocations: [StudentLocation]?  // var because this data can be refreshed
+    var annotations = [MKPointAnnotation]()
 
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -24,13 +25,97 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-         spinner.hidesWhenStopped = false
-
         mapView.delegate = self
+        spinner.hidesWhenStopped = false
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("MapViewController: viewWillAppear and calls updatedMapView()")
+        updateMapView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        spinner.hidesWhenStopped = true
+        // put the refresh code here
+        // If you need to repeat them to update the data in the view controller, viewDidAppear(_:) is more appropriate to do so.
+    }
+
+    func updateMapView() {
+
+        performUIUpdatesOnMain {self.displayUpdatedAnnotations()}
+    }
+
+    func displayUpdatedAnnotations() {
+
+        // Populate the mapView with 100 pins:
         // use sharedinstance() because it's a singleton
         studentLocations = ParseClient.sharedInstance().arrayOf100LocationDictionaries
+
+        // GUARD: studentLocations is an optional, check if there is data?
+        guard studentLocations != nil else {
+            print("Error: No data found in studentLocations (MapViewController)")
+            return
+        }
+
+        self.mapView.removeAnnotations(self.annotations)
+
+        // We will create an MKPointAnnotation for each dictionary in "locations". The
+        // point annotations will be stored in this array, and then provided to the map view.
+        var newAnnotations = [MKPointAnnotation]()
+
+        //        // clear out all annotations
+        //        self.mapView.removeAnnotations(mapView.annotations)
+
+        // The "locations" array is loaded with the sample data below. We are using the dictionaries
+        // to create map annotations. This would be more stylish if the dictionaries were being
+        // used to create custom structs. Perhaps StudentLocation structs.
+
+        // This is an array of studentLocations (struct StudentLocation)
+        for student in studentLocations! {
+
+            // Notice that the float values are being used to create CLLocationDegree values.
+            // This is a version of the Double type.
+            // CLLocationDegrees is of type Double
+            let lat = CLLocationDegrees(student.latitude)
+            let long = CLLocationDegrees(student.longitude)
+
+            // The lat and long are used to create a CLLocationCoordinates2D instance.
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+
+            // set constants to the StudentLocation data to be displayed in each pin
+            let first = student.firstName
+            let last = student.lastName
+            let mediaURL = student.mediaURL
+
+            // Here we create the annotation and set its coordiate, title, and subtitle properties
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(first) \(last)"
+            annotation.subtitle = mediaURL
+
+            // Finally we place the annotation in an array of annotations.
+            newAnnotations.append(annotation)
+        }
+        // When the array is complete, we add the annotations to the map.
+        self.mapView.addAnnotations(newAnnotations)
+    }
+
+    // removes current annotations and re-inserts annotations
+    func updateAnnotations() {
+
+        print("UpdateMapView: Step 4 - call updateAnnotations")
+
+        // Populate the mapView with 100 pins:
+        // use sharedinstance() because it's a singleton
+        studentLocations = ParseClient.sharedInstance().arrayOf100LocationDictionaries
+
+        // GUARD: studentLocations is an optional, check if there is data?
+        guard studentLocations != nil else {
+            print("Error: No data found in studentLocations (MapViewController)")
+            return
+        }
 
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
@@ -39,12 +124,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // The "locations" array is loaded with the sample data below. We are using the dictionaries
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
-
-        // GUARD: studentLocations is an optional, check if there is data?
-        guard studentLocations != nil else {
-            print("Error: No data found in studentLocations (MapViewController)")
-            return
-        }
 
         // This is an array of studentLocations (struct StudentLocation)
         for student in studentLocations! {
@@ -77,15 +156,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.mapView.addAnnotations(annotations)
     }
 
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-
-         spinner.hidesWhenStopped = true
-        // put the refresh code here
-        // If you need to repeat them to update the data in the view controller, viewDidAppear(_:) is more appropriate to do so.
-
-    }
 
     // The location argument is the center point.
     // The region will have north-south and east-west spans based on a distance of regionRadius.

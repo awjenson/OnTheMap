@@ -8,28 +8,12 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 extension UIViewController {
 
-    func reload100StudentLocationData() {
-
-        // MARK: 5. Get 100 student locations from Parse
-        ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
-
-            guard (success == success) else {
-                // display the errorString using createAlert
-                print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
-                self.createAlert(title: "Error", message: "Unable to obtain Student Locations data")
-                return
-            }
-            print("Successfully obtained Student Locations data from Parse")
-
-            // After the 100 Student Location Data has been reloaded, then refresh the UI
-            self.refreshStudentLocationData()
-            }
-        }
-
-    private func refreshStudentLocationData() {
+    
+    func goToMainNavigationControllerOfApp() {
 
         performUIUpdatesOnMain {
             print("Does the UI update inside the performUIUpdates on Main?")
@@ -39,6 +23,8 @@ extension UIViewController {
     }
 
 
+
+
     func createAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
@@ -46,6 +32,15 @@ extension UIViewController {
         }))
         self.present(alert, animated: true, completion: nil)
     }
+
+
+
+
+
+
+
+
+
 
 
 
