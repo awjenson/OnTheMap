@@ -99,9 +99,6 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
         // calling the helper method to zoom into initialLocation on startup
         centerMapOnLocation(location: initialLocation)
-
-
-
     }
 
     func userNewLocationData() -> [[String : Any]] {
@@ -195,9 +192,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             print("PUT called")
             callPutToStudentLocation()
         }
-        // TODO: fix this
-        // reload data, transition to ManagerNavigationController and then update UI
-        // MARK: 5. Get 100 student locations from Parse
+        // reload data (100 student locations from Parse), transition to ManagerNavigationController and then update UI
         ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
 
             guard (success == success) else {
@@ -210,7 +205,14 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             print("Successfully obtained Student Locations data from Parse")
 
             // After all are successful update of data, return to main navigation controller to display update MapView
-            self.goToMainNavigationControllerOfApp()
+
+            self.dismiss(animated: true, completion: nil)
+
+            performUIUpdatesOnMain {
+                
+                let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController")
+                self.present(controller, animated: true, completion: nil)
+            }
         }
     }
 
@@ -237,6 +239,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                 return
             }
             print("Successfully PUT user location.")
+
         })
     }
 

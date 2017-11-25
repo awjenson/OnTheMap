@@ -13,14 +13,14 @@ import MapKit
 extension UIViewController {
 
     
-    func goToMainNavigationControllerOfApp() {
-
-        performUIUpdatesOnMain {
-            print("Does the UI update inside the performUIUpdates on Main?")
-            let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
-            self.present(controller, animated: true, completion: nil)
-        }
-    }
+//    func goToMainNavigationControllerOfApp() {
+//
+//        performUIUpdatesOnMain {
+//            print("Does the UI update inside the performUIUpdates on Main?")
+//            let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
+//            self.present(controller, animated: true, completion: nil)
+//        }
+//    }
 
 
 

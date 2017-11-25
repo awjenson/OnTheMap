@@ -403,7 +403,6 @@
                                 </state>
                                 <connections>
                                     <action selector="finishButtonTapped:" destination="Kee-gd-hyJ" eventType="touchUpInside" id="G2x-w0-wjA"/>
-                                    <segue destination="C4B-JO-ihY" kind="show" identifier="FinishButtonTappedSegue" id="PFA-fw-Agj"/>
                                 </connections>
                             </button>
                         </subviews>

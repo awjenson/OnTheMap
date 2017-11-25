@@ -59,7 +59,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             return
         }
 
-        self.mapView.removeAnnotations(self.annotations)
+        self.mapView.removeAnnotations(mapView.annotations)
 
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.

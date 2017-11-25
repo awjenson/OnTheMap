@@ -65,7 +65,7 @@ class TabBarViewController: UITabBarController {
 
 
     @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
-        // addBar segues to AddLocationViewController
+        // addBar segues to AddLocationViewController. See perform(for segue)
 
     }
 
@@ -84,7 +84,9 @@ class TabBarViewController: UITabBarController {
             print("Successfully obtained Student Locations data from Parse")
 
             // After all are successful update of data, return to main navigation controller to display update MapView
-            self.goToMainNavigationControllerOfApp()
+//            self.goToMainNavigationControllerOfApp()
+            
+            
 
         }
     }
@@ -100,9 +102,12 @@ class TabBarViewController: UITabBarController {
             print("Add Segue: was the click button clicked?")
 
             // if no prior user location posted (mapString should be "")
-            if userMapString == "" {
+            if UserLocation.DataAtIndexZero.objectId == "" {
                 print("User has not posted their location yet.")
                 print("User Object ID: \(UserLocation.DataAtIndexZero.objectId)")
+
+
+//                performSegue(withIdentifier: "AddButtonSegue", sender: nil)
 
                 performUIUpdatesOnMain {
                     let controller = self.storyboard!.instantiateViewController(withIdentifier: "AddLocationNavigationController") as! UINavigationController
@@ -129,6 +134,8 @@ class TabBarViewController: UITabBarController {
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
 
             print("Ok button tapped");
+
+//            self.performSegue(withIdentifier: "AddButtonSegue", sender: nil)
 
             performUIUpdatesOnMain {
                 let controller = self.storyboard!.instantiateViewController(withIdentifier: "AddLocationNavigationController") as! UINavigationController
