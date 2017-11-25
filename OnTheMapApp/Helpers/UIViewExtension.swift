@@ -13,14 +13,25 @@ import MapKit
 extension UIViewController {
 
     
-//    func goToMainNavigationControllerOfApp() {
-//
-//        performUIUpdatesOnMain {
-//            print("Does the UI update inside the performUIUpdates on Main?")
-//            let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
-//            self.present(controller, animated: true, completion: nil)
-//        }
-//    }
+    func refreshAllDataAndDisplayUpdatedMapView() {
+
+        ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
+
+            guard (success == success) else {
+                // display the errorString using createAlert
+                // The app gracefully handles a failure to download student locations.
+                print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
+                self.createAlert(title: "Error", message: "Failure to download student locations data")
+                return
+            }
+            print("Successfully obtained Student Locations data from Parse")
+            performUIUpdatesOnMain {
+
+                let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
+                self.present(controller, animated: true, completion: nil)
+            }
+        }
+    }
 
 
 

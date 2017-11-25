@@ -182,7 +182,10 @@ extension ParseClient {
             print("")
 
             // Create a singleton to store user locations
+            // Forum Mentor: "arrayOf100LocationDictionaries is given a value in a background thread. Make sure you dispatch that on the main thread."
+            performUIUpdatesOnMain {
                 self.arrayOf100LocationDictionaries = StudentLocation.studentLocationsFromResults(results)
+            }
 
             // Only completionHander that sets 'data' to 'true'
             completionHandlerForGETStudentLocations(true, "")

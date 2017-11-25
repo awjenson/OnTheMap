@@ -193,27 +193,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             callPutToStudentLocation()
         }
         // reload data (100 student locations from Parse), transition to ManagerNavigationController and then update UI
-        ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
-
-            guard (success == success) else {
-                // display the errorString using createAlert
-                // The app gracefully handles a failure to download student locations.
-                print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
-                self.createAlert(title: "Error", message: "Failure to download student locations data")
-                return
-            }
-            print("Successfully obtained Student Locations data from Parse")
-
-            // After all are successful update of data, return to main navigation controller to display update MapView
-
-            self.dismiss(animated: true, completion: nil)
-
-            performUIUpdatesOnMain {
-                
-                let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController")
-                self.present(controller, animated: true, completion: nil)
-            }
-        }
+        refreshAllDataAndDisplayUpdatedMapView()
+        
     }
 
     func callPostToStudentLocation() {
