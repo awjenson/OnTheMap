@@ -5,6 +5,10 @@
 //  Created by Andrew Jenson on 11/13/17.
 //  Copyright © 2017 Andrew Jenson. All rights reserved.
 //
+// *************************************************************************************************************
+// Sources for On The Map App:
+// In order to build this app, I relied on Udacity's apps taught in their course (e.g. TheMovieManager), responses provided by Udacity Forum Mentors and other students, Apple's App Development with Swift, several YouTube tutorial videos, answers listed StackOverFlow, and tutorials provided by www.raywenderlich.com.
+// *************************************************************************************************************
 
 import UIKit
 
