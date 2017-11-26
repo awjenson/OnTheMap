@@ -211,6 +211,7 @@ extension ParseClient {
             if let error = error {
                 completionHandlerForLocationPOST(false, "Error: Could not POST new user location")
                 print(error)
+                
                 print("POST Error?: \(error)")
             } else {
                 completionHandlerForLocationPOST(true, "Successful POST")

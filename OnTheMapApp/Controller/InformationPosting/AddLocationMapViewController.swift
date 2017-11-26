@@ -26,7 +26,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var finishButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
-
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     // MARK: - Properties
 
     // create blank properties in order to allow 'AddLocationViewController to send over data (i.e. location and url)
@@ -56,8 +57,11 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        spinner.startAnimating()
 
         mapView.delegate = self
 
@@ -101,10 +105,14 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         centerMapOnLocation(location: initialLocation)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        spinner.stopAnimating()
+        spinner.hidesWhenStopped = true
+    }
+
     func userNewLocationData() -> [[String : Any]] {
         return  [
             [
-
             "createdAt" : "",
             "firstName" : UserLocation.DataAtIndexZero.firstName,
             "lastName" : UserLocation.DataAtIndexZero.lastName,
@@ -179,6 +187,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
     @IBAction func finishButtonTapped(_ sender: UIButton) {
         finishButton.isEnabled = false
+        spinner.startAnimating()
 
         // Get Student's Public Data
         if userObjectId.isEmpty {
@@ -192,12 +201,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             // PUT to existing record
             print("PUT called")
             callPutToStudentLocation()
-
         }
-        // reload data (100 student locations from Parse), transition to ManagerNavigationController and then update UI
-//        refreshAllDataAndDisplayUpdatedMapView()
-
-        
     }
 
     func callPostToStudentLocation() {
@@ -206,7 +210,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             guard (success == success) else {
                 // display the errorString using createAlert
                 print("Unsuccessful in POSTing user location: \(errorString)")
-                self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse")
+                self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse.")
                 return
             }
             print("Successfully POST user location.")
@@ -238,6 +242,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
                     // After all are successful, completeLogin
                     self.dismiss(animated: true, completion: nil)
+                    self.spinner.stopAnimating()
 
                 } // getStudentLocations
             } // getAStudentLocation
@@ -252,7 +257,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             guard (success == success) else {
                 // display the errorString using createAlert
                 print("Unsuccessful in obtaining User Name from Udacity Public User Data: \(errorString)")
-                self.createAlert(title: "Error", message: "PUT attempt did not result in a 'success' in putting user location to Parse")
+                self.createAlert(title: "Error", message: "PUT attempt did not result in a 'success' in putting user location to Parse.")
                 return
             }
 
@@ -289,7 +294,6 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
                 } // getStudentLocations
             } // getAStudentLocation
-
         })
     }
 

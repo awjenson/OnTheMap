@@ -333,7 +333,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter URL (https://)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNZ-3K-E4T">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter URL (Begin with https://)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNZ-3K-E4T">
                                         <rect key="frame" x="0.0" y="117" width="250" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -354,10 +354,16 @@
                                     <constraint firstAttribute="width" constant="250" id="faa-P8-arY"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bqd-Uj-qAA">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <color key="color" red="0.011764705882352941" green="0.70588235294117641" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="bqd-Uj-qAA" firstAttribute="centerX" secondItem="5fM-uB-d8h" secondAttribute="centerX" id="ZR5-tT-GLz"/>
                             <constraint firstItem="iCY-D3-RbQ" firstAttribute="centerX" secondItem="5fM-uB-d8h" secondAttribute="centerX" id="cJg-Vo-L8X"/>
+                            <constraint firstItem="bqd-Uj-qAA" firstAttribute="centerY" secondItem="5fM-uB-d8h" secondAttribute="centerY" id="jFe-oC-Qs4"/>
                             <constraint firstItem="iCY-D3-RbQ" firstAttribute="top" secondItem="Po7-67-zHE" secondAttribute="bottom" constant="40" id="p1H-bE-9hK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qpl-Be-x6O"/>
@@ -374,6 +380,7 @@
                         <outlet property="enterLocationTextField" destination="wfg-YV-fc1" id="c5H-6p-MXt"/>
                         <outlet property="enterURLTextField" destination="zNZ-3K-E4T" id="g1h-WM-07r"/>
                         <outlet property="findLocationButton" destination="JWz-aq-NSb" id="tqW-ot-RM8"/>
+                        <outlet property="spinner" destination="bqd-Uj-qAA" id="OzA-jU-sEC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SPX-K0-9c2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -405,13 +412,19 @@
                                     <action selector="finishButtonTapped:" destination="Kee-gd-hyJ" eventType="touchUpInside" id="G2x-w0-wjA"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="APY-Qc-gT8">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <color key="color" red="0.011764705882352941" green="0.70588235294117641" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="APY-Qc-gT8" firstAttribute="centerX" secondItem="Dpl-2g-eiK" secondAttribute="centerX" id="263-gB-lkK"/>
                             <constraint firstAttribute="trailing" secondItem="gw2-rF-TsG" secondAttribute="trailing" id="F2R-dS-VY6"/>
                             <constraint firstItem="NNS-Sr-uDH" firstAttribute="top" secondItem="gw2-rF-TsG" secondAttribute="bottom" id="aBM-uY-bfL"/>
                             <constraint firstItem="NNS-Sr-uDH" firstAttribute="top" secondItem="v5Y-AF-ti9" secondAttribute="bottom" constant="20" id="dhG-0v-EeY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="v5Y-AF-ti9" secondAttribute="trailing" constant="20" id="lD5-6k-IHn"/>
+                            <constraint firstItem="APY-Qc-gT8" firstAttribute="centerY" secondItem="Dpl-2g-eiK" secondAttribute="centerY" id="okT-Wm-m9s"/>
                             <constraint firstItem="gw2-rF-TsG" firstAttribute="leading" secondItem="Dpl-2g-eiK" secondAttribute="leading" id="rRD-cm-vaw"/>
                             <constraint firstItem="v5Y-AF-ti9" firstAttribute="leading" secondItem="Dpl-2g-eiK" secondAttribute="leadingMargin" constant="20" id="spC-bW-Q6j"/>
                             <constraint firstItem="gw2-rF-TsG" firstAttribute="top" secondItem="KEf-ab-Dnx" secondAttribute="bottom" id="z6U-UG-6L4"/>
@@ -421,6 +434,7 @@
                     <connections>
                         <outlet property="finishButton" destination="v5Y-AF-ti9" id="5KN-iG-GvQ"/>
                         <outlet property="mapView" destination="gw2-rF-TsG" id="MyA-ta-BqI"/>
+                        <outlet property="spinner" destination="APY-Qc-gT8" id="9C5-NS-Cqu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="irW-2L-79U" userLabel="First Responder" sceneMemberID="firstResponder"/>

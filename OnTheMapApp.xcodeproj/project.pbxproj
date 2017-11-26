@@ -94,8 +94,8 @@
 				DAE7EEED1FBA145100D43DC4 /* Helpers */,
 				DAE7EEC31FBA0E6400D43DC4 /* AppDelegate.swift */,
 				DAE7EEC71FBA0E6400D43DC4 /* Main.storyboard */,
-				DAE7EECA1FBA0E6400D43DC4 /* Assets.xcassets */,
 				DAE7EECC1FBA0E6400D43DC4 /* LaunchScreen.storyboard */,
+				DAE7EECA1FBA0E6400D43DC4 /* Assets.xcassets */,
 				DAE7EECF1FBA0E6400D43DC4 /* Info.plist */,
 			);
 			path = OnTheMapApp;

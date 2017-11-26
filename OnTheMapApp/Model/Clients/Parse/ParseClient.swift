@@ -162,65 +162,6 @@ class ParseClient: NSObject {
     }
 
 
-
-
-
-
-//  // DELETE is a Udacity API Request, not Parse
-//
-//    func taskForDELETESession(completionHandlerForDELETESession: @escaping (_ data: Data?, _ error: Error?) -> Void) {
-//
-//    // Key: "uniqueKey" is an extra (optional) key used to uniquely identify a StudentLocation; you should populate this value using your Udacity account id
-//    //let uniqueKey = "4295629073"
-//
-//    var components = URLComponents()
-//    //let uniqueKey = "4295629073" // already in Parse Client as uniqueKey
-//    //let queryValue = "{\"uniqueKey\":\"\(uniqueKey)\"}"
-//
-////    components.scheme = "https"
-////    components.host = "parse.udacity.com"
-////    components.path = "/parse/classes/StudentLocation"
-////    components.queryItems = [URLQueryItem]()
-////
-////    // MARK: Add a query where: key = "where", value = "{"uniqueKey:<uniqueKey value>}"
-////    var queryItem = URLQueryItem(name: QueryKeys.whereKey, value: QueryValues.whereValue)
-////    components.queryItems?.append(queryItem)
-////
-////    // MARK: Add another query where: key = "order", value = "-updatedAt"
-////    queryItem = URLQueryItem(name: QueryKeys.orderKey, value: QueryValues.orderValue)
-////    components.queryItems?.append(queryItem)
-////
-////    var request = URLRequest(url: components.url!)
-//
-//        var request = URLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
-//        request.httpMethod = "DELETE"
-//        var xsrfCookie: HTTPCookie? = nil
-//        let sharedCookieStorage = HTTPCookieStorage.shared
-//        for cookie in sharedCookieStorage.cookies! {
-//            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-//        }
-//        if let xsrfCookie = xsrfCookie {
-//            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-//        }
-//        let session = URLSession.shared
-//        let task = session.dataTask(with: request) { data, response, error in
-//            if error != nil { // Handle error…
-//                return
-//            }
-//            let range = Range(5..<data!.count)
-//            let newData = data?.subdata(in: range) /* subset response data! */
-//            print(String(data: newData!, encoding: .utf8)!)
-//
-//    // take the root JSON data for GET A Student Location and call completion handler
-//    // go to ParseConvenience.swift file to parse JSON data
-//    completionHandlerForDELETESession(data, nil)
-//    }
-//    task.resume()
-//    }
-//
-
-
-
     // MARK: Helpers
 
     // substitute the key for the value that is contained within the method name
@@ -266,18 +207,6 @@ class ParseClient: NSObject {
         return components.url!
     }
 
-    func convertDictionaryToJSONString(dictionary: [String:AnyObject]) -> String? {
-        if JSONSerialization.isValidJSONObject(dictionary) {
-            do {
-                let data = try JSONSerialization.data(withJSONObject: dictionary, options:[])
-                return String(data: data, encoding: .utf8)!
-            } catch {
-                print("Could not convert data dictionary to JSONString for httpBody).")
-            }
-        }
-        return nil
-    }
-
 
     // MARK: Shared Instance
 
@@ -287,9 +216,6 @@ class ParseClient: NSObject {
         }
         return Singleton.sharedInstance
     }
-
-
-
 
 }
 

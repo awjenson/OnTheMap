@@ -111,10 +111,7 @@ class UdacityClient: NSObject {
             let newData = data?.subdata(in: range) /* subset response data! */
             print(String(data: newData!, encoding: .utf8)!)
 
-            print("Logged Out")
-
-//            let range = Range(5..<data.count)
-//            let newData = data.subdata(in: range) /* subset response data! */
+            print("User has Successfully Logged Out")
         }
         task.resume()
     }

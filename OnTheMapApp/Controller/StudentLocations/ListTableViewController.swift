@@ -39,9 +39,16 @@ class ListTableViewController: UITableViewController {
 
         // put the refresh code here
         // If you need to repeat them to update the data in the view controller, viewDidAppear(_:) is more appropriate to do so.
+        refreshTableView()
 
     }
 
+    // Refresh Table Data
+    func refreshTableView() {
+        if let ListTableView = ListTableView {
+            ListTableView.reloadData()
+        }
+    }
 
 
     // MARK: TableView delegate methods

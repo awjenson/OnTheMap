@@ -16,7 +16,8 @@ class AddLocationViewController: UIViewController {
     @IBOutlet weak var enterLocationTextField: UITextField!
     @IBOutlet weak var enterURLTextField: UITextField!
     @IBOutlet weak var findLocationButton: UIButton!
-
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     // MARK: - Properties
 
     // create variables to store new user location coordinates that get passed
@@ -43,8 +44,10 @@ class AddLocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        spinner.hidesWhenStopped = true
 
     }
+
 
     override func viewDidAppear(_ animated: Bool) {
         // If the user clicks the back button in the NEXT view controller, then this will re-enable the UI in THIS view controller
@@ -72,6 +75,7 @@ class AddLocationViewController: UIViewController {
         }
 
         disableUI()
+        spinner.startAnimating()
 
         // store user's new location and url in struct
         // also, store data in variables created at the top of this file
@@ -81,9 +85,7 @@ class AddLocationViewController: UIViewController {
         newURL = url
 
         getCoordinatesFromLocation(location: newLocation)
-
-        } 
-
+    } 
 
     // MARK: - Methods
 

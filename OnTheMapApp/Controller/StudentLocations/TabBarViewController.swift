@@ -17,6 +17,7 @@ class TabBarViewController: UITabBarController {
     // MARK: - Properties
     var userLocation: [UserLocation]?  // var because this data can be refreshed
     var userMapString: String = ""
+
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -43,17 +44,6 @@ class TabBarViewController: UITabBarController {
     }
 
 
-//    // unwind after tapping "Finish" button in AddLocationMapViewController
-//    @IBAction func unwindAfterFinishButtonTapped(segue:UIStoryboardSegue) {
-//        // insert this method in the view controller you are trying to go back TO!
-//
-//        // reload student locations in order to include the user's new location that was just added
-//
-//        print("TEST: does this print in unwindSegue???")
-//
-//    }
-
-
     @IBAction func logoutButtonTapped(_ sender: UIBarButtonItem) {
         UdacityClient.sharedInstance().taskForDeleteSession()
 
@@ -66,13 +56,14 @@ class TabBarViewController: UITabBarController {
 
     @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
         // addBar segues to AddLocationViewController. See perform(for segue)
-
     }
 
     @IBAction func refreshBarButtonTapped(_ sender: UIBarButtonItem) {
         print("refresh bar button tapped")
 
         // create constants to prep for refreshing the two view controllers
+        let mapViewController = self.viewControllers?[0] as! MapViewController
+        let listTableViewController = self.viewControllers![1] as! ListTableViewController
 
         // MARK: Get 100 student locations from Parse
         ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
@@ -84,20 +75,15 @@ class TabBarViewController: UITabBarController {
                 self.createAlert(title: "Error", message: "Failure to download student locations data")
                 return
             }
-            print("Successfully obtained Student Locations data from Parse")
 
-           // update UI in MapViewController and ListTableViewController
-            // ???
-
+            performUIUpdatesOnMain {
+                // update UI in MapViewController and ListTableViewController
+                print("Refresh UI")
+                mapViewController.displayUpdatedAnnotations()
+                listTableViewController.refreshTableView()
+            }
         }
     }
-
-
-
-
-
-
-
 
     // MARK: - Navigation
 
@@ -141,8 +127,6 @@ class TabBarViewController: UITabBarController {
 
             print("Ok button tapped");
 
-//            self.performSegue(withIdentifier: "AddButtonSegue", sender: nil)
-
             performUIUpdatesOnMain {
                 let controller = self.storyboard!.instantiateViewController(withIdentifier: "AddLocationNavigationController") as! UINavigationController
                 self.present(controller, animated: true, completion: nil)
@@ -161,5 +145,4 @@ class TabBarViewController: UITabBarController {
         // Present Dialog message
         self.present(alertController, animated: true, completion:nil)
     }
-
 }

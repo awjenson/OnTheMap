@@ -10,7 +10,7 @@ import Foundation
 
 extension UdacityClient {
 
-    // MARK: TODO - Convenience method for extracting account 'key' and session 'id'
+    // MARK: Convenience method for extracting account 'key' and session 'id'
     //  calls taskForPOSTSession(username:password:completionHandlerForPOSTSession:)
     //  myUserName and myPassword-- values from the login view controller
 
@@ -72,7 +72,6 @@ extension UdacityClient {
 
 
 
-
     // MARK: Convenience method for extracting first name and last name from public user data
     func getPublicUserData(completionHandlerForGETPublicUserData: @escaping (_ success:Bool, _ error:String)->Void) {
 
@@ -126,10 +125,6 @@ extension UdacityClient {
             completionHandlerForGETPublicUserData(true, "")
         }
     }
-
-
-    // MARK: TODO - Convenience method for making sure that logout is successful (DELETE)
-
 
 }
 

@@ -39,16 +39,5 @@ extension UdacityClient {
         static let userId = "user_id"
     }
 
-
-
-
-
-
-
-
-
-
-
-
 }
 

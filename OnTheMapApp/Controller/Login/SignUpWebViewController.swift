@@ -11,36 +11,23 @@ import WebKit
 
 class SignUpWebViewController: UIViewController {
 
-    // MARK: Properties
-
 
     // MARK: Outlets
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         spinner.startAnimating()
-
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
 
-
-
         let url = URL(string: "https://auth.udacity.com/sign-up")
         let request = URLRequest(url: url!)
         webView.load(request)
-
-
-
-
     }
-
-
-
 
 }

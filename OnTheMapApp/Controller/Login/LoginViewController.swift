@@ -10,9 +10,7 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
-    // TODO: create an extension UIViewController { and move the createAlert and other duplicate functions. 
-
-    // MARK: - Outlets
+    // MARK: - IBOutlets
     @IBOutlet weak var udacityLogoImageView: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -29,10 +27,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         spinner.hidesWhenStopped = true
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
 
     // MARK: - Actions
@@ -52,7 +46,6 @@ class LoginViewController: UIViewController {
 
         disableUI()
         spinner.startAnimating()
-
 
         // 2. Call 'authenticateUser'
         UdacityClient.sharedInstance().authenticateUser(myUserName: username, myPassword: password) { (success, errorString) in
@@ -75,7 +68,6 @@ class LoginViewController: UIViewController {
                     return
                 }
                 print("Successfully obtained first and last name from Udacity Public User Data")
-
 
 
                 // MARK: 4. Get the User Student location/s from Parse (possible that there are more than one student location record)
@@ -113,6 +105,7 @@ class LoginViewController: UIViewController {
         } // authenticateUser
     } // LoginButtonTapped
 
+    // MARK: IBActions
 
     @IBAction func SignUpButtonTapped(_ sender: UIButton) {
         // this segues to a webview
@@ -135,14 +128,4 @@ class LoginViewController: UIViewController {
             self.present(controller, animated: true, completion: nil)
         }
     }
-    
-
-
-
-
-
-
-
-
-
 }

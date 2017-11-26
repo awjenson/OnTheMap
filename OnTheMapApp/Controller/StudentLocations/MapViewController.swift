@@ -26,7 +26,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        spinner.hidesWhenStopped = false
+        spinner.startAnimating()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -37,9 +37,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        spinner.hidesWhenStopped = true
+
         // put the refresh code here
         // If you need to repeat them to update the data in the view controller, viewDidAppear(_:) is more appropriate to do so.
+        spinner.stopAnimating()
+        spinner.hidesWhenStopped = true
     }
 
     func updateMapView() {
@@ -65,9 +67,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
         var newAnnotations = [MKPointAnnotation]()
-
-        //        // clear out all annotations
-        //        self.mapView.removeAnnotations(mapView.annotations)
 
         // The "locations" array is loaded with the sample data below. We are using the dictionaries
         // to create map annotations. This would be more stylish if the dictionaries were being
