@@ -92,8 +92,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         }
 
         // When the array is complete, we add the annotations to the map.
+        // Note: there is only one item in the array, it's the user's new location.
         self.mapView.addAnnotations(annotations)
-
 
         let initialLocation = CLLocation(latitude: newLatitude, longitude: newLongitude)
 
@@ -186,14 +186,17 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             // POST new data
             print("POST called")
             callPostToStudentLocation()
+
         } else {
             // PUT: User Map String already exists. This means that the user has already posted a location.
             // PUT to existing record
             print("PUT called")
             callPutToStudentLocation()
+
         }
         // reload data (100 student locations from Parse), transition to ManagerNavigationController and then update UI
-        refreshAllDataAndDisplayUpdatedMapView()
+//        refreshAllDataAndDisplayUpdatedMapView()
+
         
     }
 
@@ -207,11 +210,44 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                 return
             }
             print("Successfully POST user location.")
+
+            // .getAStudentLocation() is located in ParseConvenience
+            ParseClient.sharedInstance().getAStudentLocation() { (success, errorString) in
+                guard (success == success) else {
+                    // display the errorString using createAlert
+                    print("Unsuccessful in obtaining A Student Location from Parse: \(errorString)")
+                    self.createAlert(title: "Error", message: "Unable to obtain Student Location data")
+                    return
+                }
+                print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
+                print("objectID: \(ParseClient.userObjectID)")
+                print("Student AccountKey: \(UdacityClient.sharedInstance().accountKey)")
+
+
+                // MARK: Get 100 student locations from Parse
+                ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
+
+                    guard (success == success) else {
+                        // display the errorString using createAlert
+                        // The app gracefully handles a failure to download student locations.
+                        print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
+                        self.createAlert(title: "Error", message: "Failure to download student locations data")
+                        return
+                    }
+                    print("Successfully obtained Student Locations data from Parse")
+
+                    // After all are successful, completeLogin
+                    self.dismiss(animated: true, completion: nil)
+
+                } // getStudentLocations
+            } // getAStudentLocation
         })
     }
 
     func callPutToStudentLocation() {
         ParseClient.sharedInstance().putAStudentLocation(newUserMapString: newLocation, newUserMediaURL: newURL, newUserLatitude: newLatitude, newUserLongitude: newLongitude, completionHandlerForLocationPUT: { (success, errorString) in
+
+            print("TEST TEST?")
 
             guard (success == success) else {
                 // display the errorString using createAlert
@@ -219,7 +255,40 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                 self.createAlert(title: "Error", message: "PUT attempt did not result in a 'success' in putting user location to Parse")
                 return
             }
+
+
             print("Successfully PUT user location.")
+
+            // .getAStudentLocation() is located in ParseConvenience
+            ParseClient.sharedInstance().getAStudentLocation() { (success, errorString) in
+                guard (success == success) else {
+                    // display the errorString using createAlert
+                    print("Unsuccessful in obtaining A Student Location from Parse: \(errorString)")
+                    self.createAlert(title: "Error", message: "Unable to obtain Student Location data")
+                    return
+                }
+                print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
+                print("objectID: \(ParseClient.userObjectID)")
+                print("Student AccountKey: \(UdacityClient.sharedInstance().accountKey)")
+
+
+                // MARK: Get 100 student locations from Parse
+                ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
+
+                    guard (success == success) else {
+                        // display the errorString using createAlert
+                        // The app gracefully handles a failure to download student locations.
+                        print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
+                        self.createAlert(title: "Error", message: "Failure to download student locations data")
+                        return
+                    }
+                    print("Successfully obtained Student Locations data from Parse")
+
+                    // After all are successful, completeLogin
+                    self.dismiss(animated: true, completion: nil)
+
+                } // getStudentLocations
+            } // getAStudentLocation
 
         })
     }

@@ -118,9 +118,12 @@ class ParseClient: NSObject {
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil { // Handle error…
+                print("Error: no data found from taskForPOSTMethod's task")
                 return
             }
             print(String(data: data!, encoding: .utf8)!)
+
+            completionHandlerForPOST(data, nil)
         }
         task.resume()
         return task
@@ -145,9 +148,14 @@ class ParseClient: NSObject {
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil { // Handle error…
+                print("Error: no data found from taskForPUTMethod's task")
                 return
             }
             print(String(data: data!, encoding: .utf8)!)
+
+            //
+            completionHandlerForPUT(data, nil)
+
         }
         task.resume()
         return task

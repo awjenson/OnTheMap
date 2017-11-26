@@ -71,10 +71,32 @@ class TabBarViewController: UITabBarController {
 
     @IBAction func refreshBarButtonTapped(_ sender: UIBarButtonItem) {
         print("refresh bar button tapped")
-        // MARK: 5. Get 100 student locations from Parse
-        refreshAllDataAndDisplayUpdatedMapView()
 
+        // create constants to prep for refreshing the two view controllers
+
+        // MARK: Get 100 student locations from Parse
+        ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
+
+            guard (success == success) else {
+                // display the errorString using createAlert
+                // The app gracefully handles a failure to download student locations.
+                print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
+                self.createAlert(title: "Error", message: "Failure to download student locations data")
+                return
+            }
+            print("Successfully obtained Student Locations data from Parse")
+
+           // update UI in MapViewController and ListTableViewController
+            // ???
+
+        }
     }
+
+
+
+
+
+
 
 
     // MARK: - Navigation
@@ -90,7 +112,6 @@ class TabBarViewController: UITabBarController {
             if UserLocation.DataAtIndexZero.objectId == "" {
                 print("User has not posted their location yet.")
                 print("User Object ID: \(UserLocation.DataAtIndexZero.objectId)")
-
 
 //                performSegue(withIdentifier: "AddButtonSegue", sender: nil)
 
@@ -113,7 +134,7 @@ class TabBarViewController: UITabBarController {
 
     func createTwoButtonAlert() {
 
-        let alertController = UIAlertController(title: "Warning", message: "User \(ParseClient.userFirstName) \(ParseClient.userLastName) already has Posted a Student Location. Would You Like to Overwrite the Location of '\(userMapString)'?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Warning", message: "User \(UserLocation.DataAtIndexZero.firstName) \(UserLocation.DataAtIndexZero.lastName) already has Posted a Student Location. Would You Like to Overwrite the Location of '\(UserLocation.DataAtIndexZero.mapString)'?", preferredStyle: .alert)
 
         // Create OK button
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in

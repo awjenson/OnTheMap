@@ -200,7 +200,7 @@ extension ParseClient {
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
 
         // backslash before the double quote you want to insert in the String
-        let jsonBody = "{\"uniqueKey\": \"\(ParseClient.userUniqueKey)\", \"firstName\": \"\(ParseClient.userFirstName)\", \"lastName\": \"\(ParseClient.userLastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
+        let jsonBody = "{\"uniqueKey\": \"\(UserLocation.DataAtIndexZero.uniqueKey)\", \"firstName\": \"\(UserLocation.DataAtIndexZero.firstName)\", \"lastName\": \"\(UserLocation.DataAtIndexZero.lastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
 
         print("jsonBody for POST: \(jsonBody)")
 
@@ -213,7 +213,7 @@ extension ParseClient {
                 print(error)
                 print("POST Error?: \(error)")
             } else {
-                completionHandlerForLocationPOST(true, "")
+                completionHandlerForLocationPOST(true, "Successful POST")
             }
         }
     }
@@ -224,7 +224,7 @@ extension ParseClient {
     func putAStudentLocation(newUserMapString: String, newUserMediaURL: String, newUserLatitude: Double, newUserLongitude: Double, completionHandlerForLocationPUT: @escaping (_ success:Bool, _ error:String) -> Void) {
 
         // backslash before the double quote you want to insert in the String
-        let jsonBody = "{\"uniqueKey\": \"\(ParseClient.userUniqueKey)\", \"firstName\": \"\(ParseClient.userFirstName)\", \"lastName\": \"\(ParseClient.userLastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
+        let jsonBody = "{\"uniqueKey\": \"\(UserLocation.DataAtIndexZero.uniqueKey)\", \"firstName\": \"\(UserLocation.DataAtIndexZero.firstName)\", \"lastName\": \"\(UserLocation.DataAtIndexZero.lastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
 
         print("jsonBody for PUT: \(jsonBody)")
 
@@ -237,7 +237,9 @@ extension ParseClient {
                 print(error)
                 print("PUT Error?: \(error)")
             } else {
-                completionHandlerForLocationPUT(true, "")
+                print("Are we getting here?")
+
+                completionHandlerForLocationPUT(true, "Successful PUT")
             }
         }
     }   // putAStudentLocation
