@@ -31,13 +31,51 @@ class UdacityClient: NSObject {
         //        let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil { // Handle error…
+                // Udacity Forum response on no network connection: The error will state your internet connection is offline when you try to call this without internet
+                print("Error Message: \(String(describing: error!.localizedDescription))")
 
                 completionHandlerForPOSTSession(nil, error!)
                 return
             }
-            let range = Range(5..<data!.count)
-            let newData = data?.subdata(in: range) /* subset response data! */
-            print("Root JSON for taskForPOSTSession: " + String(data: newData!, encoding: .utf8)!)
+
+            // if an error occurs, print it and re-enable the UI
+            func displayError(_ error: String) {
+                print(error)
+                
+            }
+
+            // ***** We get here with an Internet Connection but with the wrong username/password
+            print("DO WE GET HERE? 1")
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error!)")
+                completionHandlerForPOSTSession(nil, error)
+                return
+            }
+
+            // if we get down here than error is nil
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+
+                // ***** This prints out if connected to WIFI but wrong username/password
+                displayError("Your request returned a status code other than 2xx!")
+                completionHandlerForPOSTSession(nil, error)
+
+                return
+            }
+
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("No data was returned by the request!")
+                completionHandlerForPOSTSession(nil, error)
+                return
+            }
+
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range) /* subset response data! */
+
+            // ******** 
+            print("Root JSON for taskForPOSTSession: " + String(data: newData, encoding: .utf8)!)
 
             // take the JSON data for POST Session and call completion handler
             completionHandlerForPOSTSession(newData, nil)

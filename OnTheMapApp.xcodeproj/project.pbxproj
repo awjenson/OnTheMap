@@ -150,9 +150,9 @@
 		DAE7EEDA1FBA0EDA00D43DC4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				DAE7EEF41FBA1B5F00D43DC4 /* InformationPosting */,
-				DAE7EEF31FBA1B1500D43DC4 /* StudentLocations */,
 				DAE7EEF21FBA1AFA00D43DC4 /* Login */,
+				DAE7EEF31FBA1B1500D43DC4 /* StudentLocations */,
+				DAE7EEF41FBA1B5F00D43DC4 /* InformationPosting */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

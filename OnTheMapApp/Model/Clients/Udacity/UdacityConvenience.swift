@@ -21,9 +21,20 @@ extension UdacityClient {
             // MARK: Extract account key and session id from the root JSON data parsed from taskForPOSTSession (see UdacityClient) and store them in the Udacity client properties: 'accountKey' and 'sessionID'
             // (1) Parse data
 
+            guard (error == nil) else {
+                // If Error then it means that there is no network connection, display this message in the Alert Message.
+                print("GUARD in ERROR: MESSAGE: \(error!.localizedDescription)")
+                // if no data was returned, then then data = false and there is an error
+                completionHandlerForAuthenticateUser(false, UdacityClient.ErrorMessages.NetworkConnectionError)
+                return
+            }
+
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                completionHandlerForAuthenticateUser(false, "No raw JSON data available to attempt JSONSerialization.")
+                // If error is nil (see above), but no data returned, we enter inside this Guard statement and the problem is that the username or password are incorrect, so have this message display in the Alert Message.
+                print("GUARD in DATA: MESSAGE (Username or Password is incorrect).")
+                // if no data was returned, then then data = false and there is an error
+                completionHandlerForAuthenticateUser(false, UdacityClient.ErrorMessages.UsernamePassworkError)
                 return
             }
 
@@ -47,6 +58,8 @@ extension UdacityClient {
                 completionHandlerForAuthenticateUser(false,"No valid key in account dictionary.")
                 return
             }
+
+            // ***** IF correct username and password then these will display account key and session id. 
             // store account 'key'
             print("account key: \(myAccountKey)")
             self.accountKey = myAccountKey

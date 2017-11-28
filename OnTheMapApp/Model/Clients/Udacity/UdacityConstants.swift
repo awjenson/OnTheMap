@@ -39,5 +39,10 @@ extension UdacityClient {
         static let userId = "user_id"
     }
 
+    struct ErrorMessages {
+        static let UsernamePassworkError = "Login attempt failed. Ensure that your username and password are correct."
+        static let NetworkConnectionError = "Login attempt failed. The Internet connection appears to be offline."
+    }
+
 }
 

@@ -19,13 +19,12 @@ class AddLocationViewController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     // MARK: - Properties
-
+    var keyboardOnScreen = false
     // create variables to store new user location coordinates that get passed
     var newLocation = ""
     var newURL = ""
     var newLatitude = 0.0
     var newLongitude = 0.0
-
     var coordinates = [CLLocationCoordinate2D]() {
         didSet {
             // Update the pins
@@ -46,12 +45,21 @@ class AddLocationViewController: UIViewController {
         super.viewDidLoad()
         spinner.hidesWhenStopped = true
 
+        subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
+        subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
+        subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
+        subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
     }
 
 
     override func viewDidAppear(_ animated: Bool) {
         // If the user clicks the back button in the NEXT view controller, then this will re-enable the UI in THIS view controller
         enableUI()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromAllNotifications()
     }
 
     // MARK: - IBActions
@@ -151,4 +159,71 @@ class AddLocationViewController: UIViewController {
     }
 
 }
+
+
+// MARK: - LoginViewController: UITextFieldDelegate
+
+extension AddLocationViewController: UITextFieldDelegate {
+
+    // MARK: UITextFieldDelegate
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    // MARK: Show/Hide Keyboard
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if !keyboardOnScreen {
+            view.frame.origin.y -= keyboardHeight(notification)
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if keyboardOnScreen {
+            view.frame.origin.y += keyboardHeight(notification)
+        }
+    }
+
+    @objc func keyboardDidShow(_ notification: Notification) {
+        keyboardOnScreen = true
+    }
+
+    @objc func keyboardDidHide(_ notification: Notification) {
+        keyboardOnScreen = false
+    }
+
+    private func keyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = (notification as NSNotification).userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
+    }
+
+    private func resignIfFirstResponder(_ textField: UITextField) {
+        if textField.isFirstResponder {
+            textField.resignFirstResponder()
+        }
+    }
+
+//    @IBAction func userDidTapView(_ sender: AnyObject) {
+//        resignIfFirstResponder(usernameTextField)
+//        resignIfFirstResponder(passwordTextField)
+//    }
+}
+
+
+// MARK: - LoginViewController (Notifications)
+
+private extension AddLocationViewController {
+
+    func subscribeToNotification(_ notification: NSNotification.Name, selector: Selector) {
+        NotificationCenter.default.addObserver(self, selector: selector, name: notification, object: nil)
+    }
+
+    func unsubscribeFromAllNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
 
