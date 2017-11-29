@@ -179,6 +179,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             }
         } else {
             print("Error: mapView calloutAccessoryControlTapped control is not working. Cannot transition to web browser.")
+            createAlert(title: "Error", message: "Could not transition to web browser. Re-try URL.")
         }
     }
 
@@ -251,8 +252,6 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
     func callPutToStudentLocation() {
         ParseClient.sharedInstance().putAStudentLocation(newUserMapString: newLocation, newUserMediaURL: newURL, newUserLatitude: newLatitude, newUserLongitude: newLongitude, completionHandlerForLocationPUT: { (success, errorString) in
-
-            print("TEST TEST?")
 
             guard (success == success) else {
                 // display the errorString using createAlert

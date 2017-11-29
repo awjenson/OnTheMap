@@ -31,16 +31,16 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         spinner.hidesWhenStopped = true
-
-        subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
-        subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
-        subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
-        subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        unsubscribeFromAllNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
 
     // MARK: - Actions
@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
             return
         }
 
-        disableUI()
+        self.disableUI()
         spinner.startAnimating()
 
         // 2. Call 'authenticateUser'
@@ -75,7 +75,6 @@ class LoginViewController: UIViewController {
                 }
                 return
             }
-
 
             // If 'success' was true, then continue with collecting data
             print("Successfully authenicated the Udacity user.")
@@ -95,7 +94,6 @@ class LoginViewController: UIViewController {
                     return
                 }
                 print("Successfully obtained first and last name from Udacity Public User Data")
-
 
                 // MARK: 4. Get the User Student location/s from Parse (possible that there are more than one student location record)
                 // .getAStudentLocation() is located in ParseConvenience
@@ -150,24 +148,6 @@ class LoginViewController: UIViewController {
 
     // MARK: - Methods
 
-    func disableUI() {
-        usernameTextField.isEnabled = false
-        passwordTextField.isEnabled = false
-        loginButton.isEnabled = false
-        signUpButon.isEnabled = false
-    }
-
-    func enableUI() {
-        usernameTextField.isEnabled = true
-        passwordTextField.isEnabled = true
-        usernameTextField.text = ""
-        passwordTextField.text = ""
-        loginButton.isEnabled = true
-        signUpButon.isEnabled = true
-        self.spinner.stopAnimating()
-        spinner.hidesWhenStopped = true
-    }
-
     private func completeLogin() {
 
         performUIUpdatesOnMain {
@@ -177,66 +157,6 @@ class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - LoginViewController: UITextFieldDelegate
 
-extension LoginViewController: UITextFieldDelegate {
 
-    // MARK: UITextFieldDelegate
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
-    // MARK: Show/Hide Keyboard
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen {
-            view.frame.origin.y -= keyboardHeight(notification)
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            view.frame.origin.y += keyboardHeight(notification)
-        }
-    }
-
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
-    }
-
-    private func keyboardHeight(_ notification: Notification) -> CGFloat {
-        let userInfo = (notification as NSNotification).userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        return keyboardSize.cgRectValue.height
-    }
-
-    private func resignIfFirstResponder(_ textField: UITextField) {
-        if textField.isFirstResponder {
-            textField.resignFirstResponder()
-        }
-    }
-
-    @IBAction func userDidTapView(_ sender: AnyObject) {
-        resignIfFirstResponder(usernameTextField)
-        resignIfFirstResponder(passwordTextField)
-    }
-}
-
-// MARK: - LoginViewController (Notifications)
-
-private extension LoginViewController {
-
-    func subscribeToNotification(_ notification: NSNotification.Name, selector: Selector) {
-        NotificationCenter.default.addObserver(self, selector: selector, name: notification, object: nil)
-    }
-
-    func unsubscribeFromAllNotifications() {
-        NotificationCenter.default.removeObserver(self)
-    }
-}

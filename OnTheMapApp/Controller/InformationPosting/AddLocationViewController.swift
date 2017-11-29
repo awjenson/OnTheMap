@@ -44,22 +44,19 @@ class AddLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         spinner.hidesWhenStopped = true
-
-        subscribeToNotification(.UIKeyboardWillShow, selector: #selector(keyboardWillShow))
-        subscribeToNotification(.UIKeyboardWillHide, selector: #selector(keyboardWillHide))
-        subscribeToNotification(.UIKeyboardDidShow, selector: #selector(keyboardDidShow))
-        subscribeToNotification(.UIKeyboardDidHide, selector: #selector(keyboardDidHide))
     }
-
 
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         // If the user clicks the back button in the NEXT view controller, then this will re-enable the UI in THIS view controller
         enableUI()
+        subscribeToKeyboardNotifications()
     }
+
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        unsubscribeFromAllNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
 
     // MARK: - IBActions
@@ -82,7 +79,7 @@ class AddLocationViewController: UIViewController {
             return
         }
 
-        disableUI()
+        self.disableUI()
         spinner.startAnimating()
 
         // store user's new location and url in struct
@@ -110,6 +107,7 @@ class AddLocationViewController: UIViewController {
 
             guard let placemarkLatitude = placemark?.location?.coordinate.latitude else {
                 print("could not calculate latitude coordinate from geocodeAddressString")
+                self.createAlert(title: "Error", message: "Could not calculate latitude coordinate. Re-try location.")
                 return
             }
 
@@ -117,6 +115,7 @@ class AddLocationViewController: UIViewController {
 
             guard let placemarkLongitude = placemark?.location?.coordinate.longitude else {
                 print("could not calculate longitude coordinate from geocodeAddressString")
+                self.createAlert(title: "Error", message: "Could not calculate longitude coordinate. Re-try location.")
                 return
             }
 
@@ -129,11 +128,12 @@ class AddLocationViewController: UIViewController {
         }
     }
 
-
     func passDataToNextViewController() {
         print("confirmed that passDataToNextViewController was called, inside function")
 
         performUIUpdatesOnMain {
+
+            self.spinner.stopAnimating()
 
             print("entered passDataToNextViewController's performUIUpdatesOnMain, going to segue to Next VC")
 
@@ -145,85 +145,8 @@ class AddLocationViewController: UIViewController {
             self.navigationController?.pushViewController(addLocationMapVC, animated: true)
         }
     }
-
-    func disableUI() {
-        enterLocationTextField.isEnabled = false
-        enterURLTextField.isEnabled = false
-        findLocationButton.isEnabled = false
-    }
-
-    func enableUI() {
-        enterLocationTextField.isEnabled = true
-        enterURLTextField.isEnabled = true
-        findLocationButton.isEnabled = true
-    }
-
 }
 
 
-// MARK: - LoginViewController: UITextFieldDelegate
-
-extension AddLocationViewController: UITextFieldDelegate {
-
-    // MARK: UITextFieldDelegate
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
-    // MARK: Show/Hide Keyboard
-
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen {
-            view.frame.origin.y -= keyboardHeight(notification)
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            view.frame.origin.y += keyboardHeight(notification)
-        }
-    }
-
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
-    }
-
-    private func keyboardHeight(_ notification: Notification) -> CGFloat {
-        let userInfo = (notification as NSNotification).userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        return keyboardSize.cgRectValue.height
-    }
-
-    private func resignIfFirstResponder(_ textField: UITextField) {
-        if textField.isFirstResponder {
-            textField.resignFirstResponder()
-        }
-    }
-
-//    @IBAction func userDidTapView(_ sender: AnyObject) {
-//        resignIfFirstResponder(usernameTextField)
-//        resignIfFirstResponder(passwordTextField)
-//    }
-}
-
-
-// MARK: - LoginViewController (Notifications)
-
-private extension AddLocationViewController {
-
-    func subscribeToNotification(_ notification: NSNotification.Name, selector: Selector) {
-        NotificationCenter.default.addObserver(self, selector: selector, name: notification, object: nil)
-    }
-
-    func unsubscribeFromAllNotifications() {
-        NotificationCenter.default.removeObserver(self)
-    }
-}
 
 

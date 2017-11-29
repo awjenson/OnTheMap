@@ -143,6 +143,7 @@
 		DAE7EED91FBA0ED200D43DC4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DA054C571FC549AF00D35C97 /* UIViewExtension.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -161,7 +162,6 @@
 			isa = PBXGroup;
 			children = (
 				DAE7EEEE1FBA147100D43DC4 /* GCDBlackBox.swift */,
-				DA054C571FC549AF00D35C97 /* UIViewExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";

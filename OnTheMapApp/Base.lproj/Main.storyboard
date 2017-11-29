@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -17,11 +17,11 @@
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="OnTheMapApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zhu-Dr-XaI">
-                                <rect key="frame" x="62.5" y="50" width="250" height="252"/>
+                                <rect key="frame" x="35" y="60" width="250" height="252"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-u" translatesAutoresizingMaskIntoConstraints="NO" id="gvn-zR-4ip">
                                         <rect key="frame" x="0.0" y="0.0" width="250" height="62"/>
@@ -79,7 +79,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="zhu-Dr-XaI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ANS-8F-8qt"/>
-                            <constraint firstItem="zhu-Dr-XaI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="thH-LY-iEi"/>
+                            <constraint firstItem="zhu-Dr-XaI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="thH-LY-iEi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -101,11 +101,11 @@
             <objects>
                 <viewController storyboardIdentifier="SignUpWebViewController" id="rc4-SD-vi0" customClass="SignUpWebViewController" customModule="OnTheMapApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dO0-V1-lYt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Hx-ZU-JG4">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
                                     <navigationItem title="Udacity Sign Up" id="o8M-XC-ZJ9">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="OXI-1L-u4R">
@@ -117,11 +117,11 @@
                                 </items>
                             </navigationBar>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eUa-bC-jut">
-                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
+                                <rect key="frame" x="150" y="230" width="20" height="20"/>
                                 <color key="color" red="0.010518638417124748" green="0.70716160535812378" blue="0.89919906854629517" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v86-RK-Dn5">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -157,15 +157,15 @@
             <objects>
                 <tableViewController id="pDI-mL-d60" customClass="ListTableViewController" customModule="OnTheMapApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="axL-AS-zRR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListTableViewCell" textLabel="q9e-uf-XZJ" detailTextLabel="tBF-Jp-YP6" imageView="XRn-Z7-feR" style="IBUITableViewCellStyleSubtitle" id="ASg-pd-Z09" customClass="ListTableViewCell" customModule="OnTheMapApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ASg-pd-Z09" id="Ydp-e8-VLO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="q9e-uf-XZJ">
@@ -215,7 +215,7 @@
             <objects>
                 <navigationController storyboardIdentifier="ManagerNavigationController" id="C4B-JO-ihY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lgL-Op-zTm">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -235,14 +235,14 @@
                         <viewControllerLayoutGuide type="bottom" id="Ggp-FM-j5l"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0lL-x9-IHL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZOg-Me-wD0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                             </mapView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="J3m-yw-doO">
-                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
+                                <rect key="frame" x="150" y="230" width="20" height="20"/>
                                 <color key="color" red="0.011764705882352941" green="0.70588235294117641" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -318,11 +318,11 @@
                         <viewControllerLayoutGuide type="bottom" id="8lz-mh-Ef6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5fM-uB-d8h">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="iCY-D3-RbQ">
-                                <rect key="frame" x="62.5" y="104" width="250" height="187"/>
+                                <rect key="frame" x="35" y="94" width="250" height="217"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_world" translatesAutoresizingMaskIntoConstraints="NO" id="pX8-V4-xMX">
                                         <rect key="frame" x="0.0" y="0.0" width="250" height="67"/>
@@ -349,22 +349,20 @@
                                             <action selector="findLocationButtonTapped:" destination="L5y-En-fLX" eventType="touchUpInside" id="wgx-bD-nng"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bqd-Uj-qAA">
+                                        <rect key="frame" x="0.0" y="197" width="250" height="20"/>
+                                        <color key="color" red="0.011764705882352941" green="0.70588235294117641" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="faa-P8-arY"/>
                                 </constraints>
                             </stackView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bqd-Uj-qAA">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
-                                <color key="color" red="0.011764705882352941" green="0.70588235294117641" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bqd-Uj-qAA" firstAttribute="centerX" secondItem="5fM-uB-d8h" secondAttribute="centerX" id="ZR5-tT-GLz"/>
                             <constraint firstItem="iCY-D3-RbQ" firstAttribute="centerX" secondItem="5fM-uB-d8h" secondAttribute="centerX" id="cJg-Vo-L8X"/>
-                            <constraint firstItem="bqd-Uj-qAA" firstAttribute="centerY" secondItem="5fM-uB-d8h" secondAttribute="centerY" id="jFe-oC-Qs4"/>
-                            <constraint firstItem="iCY-D3-RbQ" firstAttribute="top" secondItem="Po7-67-zHE" secondAttribute="bottom" constant="40" id="p1H-bE-9hK"/>
+                            <constraint firstItem="iCY-D3-RbQ" firstAttribute="top" secondItem="Po7-67-zHE" secondAttribute="bottom" constant="30" id="p1H-bE-9hK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qpl-Be-x6O"/>
                     </view>
@@ -385,7 +383,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SPX-K0-9c2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4889" y="-1128"/>
+            <point key="canvasLocation" x="2357" y="-2240"/>
         </scene>
         <!--Add Location Map View Controller-->
         <scene sceneID="QgS-PE-5g1">
@@ -396,14 +394,14 @@
                         <viewControllerLayoutGuide type="bottom" id="NNS-Sr-uDH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Dpl-2g-eiK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gw2-rF-TsG">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5Y-AF-ti9">
-                                <rect key="frame" x="36" y="617" width="303" height="30"/>
+                                <rect key="frame" x="36" y="430" width="248" height="30"/>
                                 <color key="backgroundColor" red="0.08235294118" green="0.64313725489999995" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="FINISH">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -413,7 +411,7 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="APY-Qc-gT8">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <rect key="frame" x="150" y="230" width="20" height="20"/>
                                 <color key="color" red="0.011764705882352941" green="0.70588235294117641" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -447,7 +445,7 @@
                 <navigationController storyboardIdentifier="AddLocationNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="FCW-Yd-Abn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rdh-dY-2iE">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
