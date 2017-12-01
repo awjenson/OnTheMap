@@ -35,7 +35,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     var newURL = UserLocation.NewUserLocation.mediaURL
     var newLatitude = UserLocation.NewUserLocation.latitude
     var newLongitude = UserLocation.NewUserLocation.longitude
-    var userObjectId = UserLocation.DataAtIndexZero.objectId
+    var userObjectId = UserLocation.UserData.objectId
 
     var coordinates = [CLLocationCoordinate2D]() {
         didSet {
@@ -114,14 +114,14 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         return  [
             [
             "createdAt" : "",
-            "firstName" : UserLocation.DataAtIndexZero.firstName,
-            "lastName" : UserLocation.DataAtIndexZero.lastName,
+            "firstName" : UserLocation.UserData.firstName,
+            "lastName" : UserLocation.UserData.lastName,
             "latitude" : UserLocation.NewUserLocation.latitude,
             "longitude" : UserLocation.NewUserLocation.longitude,
             "mapString" : UserLocation.NewUserLocation.mapString,
             "mediaURL" : UserLocation.NewUserLocation.mediaURL,
             "objectId" : "",
-            "uniqueKey" : UserLocation.DataAtIndexZero.uniqueKey,
+            "uniqueKey" : UserLocation.UserData.uniqueKey,
             "updatedAt" : ""
             ]
         ]
@@ -225,7 +225,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                     return
                 }
                 print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
-                print("objectID: \(ParseClient.userObjectID)")
+                print("objectID: \(UserLocation.UserData.objectId)")
                 print("Student AccountKey: \(UdacityClient.sharedInstance().accountKey)")
 
 
@@ -272,7 +272,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                     return
                 }
                 print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
-                print("objectID: \(ParseClient.userObjectID)")
+                print("objectID: \(UserLocation.UserData.objectId)")
                 print("Student AccountKey: \(UdacityClient.sharedInstance().accountKey)")
 
 

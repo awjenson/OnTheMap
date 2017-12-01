@@ -40,16 +40,34 @@ struct UserLocation {
     }
 
     // Stores current user's data of their most recent post
-    struct DataAtIndexZero {
-        static var objectId = ""    // used for PUT
-        static var latitude = 0.0
-        static var longitude = 0.0
-        static var mapString = ""
-        static var uniqueKey = ""
-        static var firstName = ""
-        static var lastName = ""
-        static var mediaURL = ""
-        static var updatedAt = ""
+    //  so that it is used as initial set of data for the user locating
+    struct UserData {
+        static var uniqueKey = UdacityClient.sharedInstance().accountKey
+        static var firstName = UdacityClient.sharedInstance().firstName
+        static var lastName = UdacityClient.sharedInstance().lastName
+        static var objectId = ""    // updated when there's a user location in Parse; used for PUT
+        static var latitude = 0.0   // updated when there's a user location in Parse
+        static var longitude = 0.0  // updated when there's a user location in Parse
+        static var mapString = ""   // updated when there's a user location in Parse
+        static var mediaURL = ""    // updated when there's a user location in Parse
+        //        static var updatedAt = ""   // updated when there's a user location in Parse (Forum Mentor suggested this is not needed)
+    }
+
+    // MARK: User Location Dictionary
+    static var userLocationDictionary : [String: AnyObject] = [
+        "objectId" : UserData.objectId as AnyObject,
+        "uniqueKey": UserData.uniqueKey as AnyObject,
+        "firstName": UserData.firstName as AnyObject,
+        "lastName" : UserData.lastName as AnyObject,
+        "latitude" : UserData.latitude as AnyObject,
+        "mapString": UserData.mapString as AnyObject,
+        "mediaURL": UserData.mediaURL as AnyObject
+    ]
+
+    struct DataWhenStudentLocationIsEmpty {
+
+
+
     }
 
     struct NewUserLocation {

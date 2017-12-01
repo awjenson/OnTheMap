@@ -33,7 +33,6 @@ extension ParseClient {
         static let APIPath = "/parse/classes"
 
         // You will be required to specify the Parse Application ID and REST API Key for all requests to the Parse API.
-        // TODO: ??? Does the statment above mean that I should move these down to Parameter Keys and Values?
         static let ApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
         static let RestAPIKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
         static let ApplicationIDHeader = "X-Parse-Application-Id"
@@ -58,7 +57,7 @@ extension ParseClient {
     // MARK: URL Querry Values
     struct QueryValues {
         static let orderValue = "-updatedAt"
-        static let whereValue = "{\"uniqueKey\":\"\(userUniqueKey)\"}"  // whereValue links to accountKey parsed from func authenticateUser() in UdacityConveinence.swift
+        static let whereValue = "{\"uniqueKey\":\"\(UserLocation.UserData.uniqueKey)\"}"  // whereValue links to accountKey parsed from func authenticateUser() in UdacityConveinence.swift
     }
 
     // MARK: JSON Response Keys

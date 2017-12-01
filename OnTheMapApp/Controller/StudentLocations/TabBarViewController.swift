@@ -15,32 +15,32 @@ class TabBarViewController: UITabBarController {
     @IBOutlet weak var addBarButton: UIBarButtonItem!
 
     // MARK: - Properties
-    var userLocation: [UserLocation]?  // var because this data can be refreshed
-    var userMapString: String = ""
+//    var userLocation: [UserLocation]?  // var because this data can be refreshed
+//    var userMapString: String = ""
 
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // use sharedinstance() because it's a singleton
-        userLocation = ParseClient.sharedInstance().arrayOfUserLocationDictionaries
-
-        // GUARD: studentLocations is an optional, check if there is data?
-        guard userLocation != nil else {
-            print("Error: No data found in studentLocations (MapViewController)")
-            return
-        }
-
-        // This is an array of studentLocations (struct StudentLocation)
-        for user in userLocation! {
-
-            if user.mapString == "" {
-                userMapString = user.mapString
-            } else {
-                userMapString = user.mapString
-            }
-        }
+//        // use sharedinstance() because it's a singleton
+//        userLocation = ParseClient.sharedInstance().arrayOfUserLocationDictionaries
+//
+//        // GUARD: studentLocations is an optional, check if there is data?
+//        guard userLocation != nil else {
+//            print("Error: No data found in studentLocations (MapViewController)")
+//            return
+//        }
+//
+//        // This is an array of studentLocations (struct StudentLocation)
+//        for user in userLocation! {
+//
+//            if user.mapString == "" {
+//                userMapString = user.mapString
+//            } else {
+//                userMapString = user.mapString
+//            }
+//        }
     }
 
 
@@ -95,9 +95,9 @@ class TabBarViewController: UITabBarController {
             print("Add Segue: was the click button clicked?")
 
             // if no prior user location posted (mapString should be "")
-            if UserLocation.DataAtIndexZero.objectId == "" {
+            if UserLocation.UserData.objectId == "" {
                 print("User has not posted their location yet.")
-                print("User Object ID: \(UserLocation.DataAtIndexZero.objectId)")
+                print("User Object ID: \(UserLocation.UserData.objectId)")
 
 //                performSegue(withIdentifier: "AddButtonSegue", sender: nil)
 
@@ -109,7 +109,7 @@ class TabBarViewController: UITabBarController {
             } else {
                 // mapString contains data, so the user has already posted a location
                 print("user has already posted a location")
-                print("User Object ID: \(UserLocation.DataAtIndexZero.objectId)")
+                print("User Object ID: \(UserLocation.UserData.objectId)")
 
                 // display the errorString using createAlert
                 createTwoButtonAlert()
@@ -120,7 +120,7 @@ class TabBarViewController: UITabBarController {
 
     func createTwoButtonAlert() {
 
-        let alertController = UIAlertController(title: "Warning", message: "User \(UserLocation.DataAtIndexZero.firstName) \(UserLocation.DataAtIndexZero.lastName) already has Posted a Student Location. Would You Like to Overwrite the Location of '\(UserLocation.DataAtIndexZero.mapString)'?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Warning", message: "User \(UserLocation.UserData.firstName) \(UserLocation.UserData.lastName) already has Posted a Student Location. Would You Like to Overwrite the Location of '\(UserLocation.UserData.mapString)'?", preferredStyle: .alert)
 
         // Create OK button
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in

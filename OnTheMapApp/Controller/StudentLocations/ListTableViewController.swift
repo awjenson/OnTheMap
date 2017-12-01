@@ -23,9 +23,9 @@ class ListTableViewController: UITableViewController {
         super.viewDidLoad()
 
         // use sharedinstance() because it's a singleton
-        // Forum Mentor: "arrayOf100LocationDictionaries is given a value in a background thread. Make sure you dispatch that on the main thread."
+        // Forum Mentor: "arrayOfStudentLocations is given a value in a background thread. Make sure you dispatch that on the main thread."
 
-        self.studentLocations = ParseClient.sharedInstance().arrayOf100LocationDictionaries
+        self.studentLocations = arrayOfStudentLocations
 
         // GUARD: studentLocations is an optional, check if there is data?
         guard studentLocations != nil else {

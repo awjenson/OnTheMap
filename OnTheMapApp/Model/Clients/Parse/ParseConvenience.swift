@@ -15,8 +15,6 @@ extension ParseClient {
     // MARK: GET Convenience method for extracting first name and last name from public user data
     func getAStudentLocation(completionHandlerForGETAStudentLocation: @escaping (_ success:Bool, _ error:String)->Void) {
 
-        // do whatever prep is needed here before calling the core function
-
         // Call taskForGETAStudentLocation (from ParseClient) and parse the JSON data
         // "uniqueKey": an extra (optional) key used to uniquely identify a StudentLocation; you should populate this value using your Udacity account id
         taskForGETAStudentLocation() {  (data, error) in
@@ -24,6 +22,8 @@ extension ParseClient {
 
             /* GUARD: Was there any data returned? */
             guard let data = data else {
+                // if no data then print error and set completionHandler for data as false
+                print("Error from taskForGETAStudentLocation: \(String(describing: error?.localizedDescription))")
                 completionHandlerForGETAStudentLocation(false, "No raw JSON data available to attempt JSONSerialization.")
                 return
             }
@@ -46,93 +46,64 @@ extension ParseClient {
                 return
             }
 
+            guard !(results.isEmpty) else {
+                // MARK: populate user student location with objectId = ""
+                UserLocation.UserData.objectId = ""
+                print("USER LOCATION 'results' value should be an empty array: \(results)")
+                completionHandlerForGETAStudentLocation(true, "")
+                return
+            }
+
+            // objectId exists. Store user location data into UserLocation.UserData
+
             print("USER LOCATION RESULT: \(results)")
 
-            // GUARD: objectId
+            // NOTE: We don't need to parse uniqueKey, firstName, and lastName because we already retrieved them fro Udacity's API
+
+            // MARK: KEEP - GUARD: objectId
             guard let objectId = results[0]["objectId"] as? String else {
                 print("taskForGETAStudentLocation(): Could not parse 'objectId' from 'results[0]")
                 return
             }
 
-            UserLocation.DataAtIndexZero.objectId = objectId
-            print("results[0] parsed 'objectId: \(UserLocation.DataAtIndexZero.objectId)")
+            UserLocation.UserData.objectId = objectId
+            print("results[0] parsed 'objectId: \(UserLocation.UserData.objectId)")
 
-            // GUARD: uniqueKey
-            guard let uniqueKey = results[0]["uniqueKey"] as? String else {
-                print("taskForGETAStudentLocation(): Could not parse 'uniqueKey' from 'results[0]")
-                return
-            }
-
-            UserLocation.DataAtIndexZero.uniqueKey = uniqueKey
-            print("results[0] parsed 'objectId: \(UserLocation.DataAtIndexZero.uniqueKey)")
-
-            // GUARD: firstName
-            guard let firstName = results[0]["firstName"] as? String else {
-                print("taskForGETAStudentLocation(): Could not parse 'firstName' from 'results[0]")
-                return
-            }
-
-            UserLocation.DataAtIndexZero.firstName = firstName
-            print("results[0] parsed 'firstName: \(UserLocation.DataAtIndexZero.firstName)")
-
-            // GUARD: lastName
-            guard let lastName = results[0]["lastName"] as? String else {
-                print("taskForGETAStudentLocation(): Could not parse 'lastName' from 'results[0]")
-                return
-            }
-
-            UserLocation.DataAtIndexZero.lastName = lastName
-            print("results[0] parsed 'firstName: \(UserLocation.DataAtIndexZero.lastName)")
-
-            // GUARD: mapString
+            //  MARK: KEEP - GUARD: mapString
             guard let mapString = results[0]["mapString"] as? String else {
                 print("taskForGETAStudentLocation(): Could not parse 'mapString' from 'results[0]")
                 return
             }
 
-            UserLocation.DataAtIndexZero.mapString = mapString
-            print("results[0] parsed 'mapString: \(UserLocation.DataAtIndexZero.mapString)")
+            UserLocation.UserData.mapString = mapString
+            print("results[0] parsed 'mapString: \(UserLocation.UserData.mapString)")
 
-            // GUARD: mediaURL
+            //  MARK: KEEP - GUARD: mediaURL
             guard let mediaURL = results[0]["mediaURL"] as? String else {
                 print("taskForGETAStudentLocation(): Could not parse 'mediaURL' from 'results[0]")
                 return
             }
 
-            UserLocation.DataAtIndexZero.mediaURL = mediaURL
-            print("results[0] parsed 'mediaURL: \(UserLocation.DataAtIndexZero.mediaURL)")
+            UserLocation.UserData.mediaURL = mediaURL
+            print("results[0] parsed 'mediaURL: \(UserLocation.UserData.mediaURL)")
 
-            // GUARD: latitude
+            //  MARK: KEEP - GUARD: latitude
             guard let latitude = results[0]["latitude"] as? Double else {
                 print("taskForGETAStudentLocation(): Could not parse 'latitude' from 'results[0]")
                 return
             }
 
-            UserLocation.DataAtIndexZero.latitude = latitude
-            print("results[0] parsed 'latitude: \(UserLocation.DataAtIndexZero.latitude)")
+            UserLocation.UserData.latitude = latitude
+            print("results[0] parsed 'latitude: \(UserLocation.UserData.latitude)")
 
-            // GUARD: longitudee
+            //  MARK: KEEP - GUARD: longitude
             guard let longitude = results[0]["longitude"] as? Double else {
                 print("taskForGETAStudentLocation(): Could not parse 'longitude' from 'results[0]")
                 return
             }
 
-            UserLocation.DataAtIndexZero.longitude = longitude
-            print("results[0] parsed 'longitude: \(UserLocation.DataAtIndexZero.longitude)")
-
-            // GUARD: updatedAt
-            guard let updatedAt = results[0]["updatedAt"] as? String else {
-                print("taskForGETAStudentLocation(): Could not parse 'updatedAt' from 'results[0]")
-                return
-            }
-
-            UserLocation.DataAtIndexZero.updatedAt = updatedAt
-            print("results[0] parsed 'updatedAt: \(UserLocation.DataAtIndexZero.updatedAt)")
-
-            // store all user data in array
-            self.arrayOfUserLocationDictionaries = UserLocation.userLocationFromResults(results)
-
-            print("Array of user location \(self.arrayOfUserLocationDictionaries!)")
+            UserLocation.UserData.longitude = longitude
+            print("results[0] parsed 'longitude: \(UserLocation.UserData.longitude)")
 
             // this is the only completion handler that has data set to true
             completionHandlerForGETAStudentLocation(true, "")
@@ -181,11 +152,23 @@ extension ParseClient {
             print("")
             print("")
 
-            // Create a singleton to store user locations
-            // Forum Mentor: "arrayOf100LocationDictionaries is given a value in a background thread. Make sure you dispatch that on the main thread."
-            performUIUpdatesOnMain {
-                self.arrayOf100LocationDictionaries = StudentLocation.studentLocationsFromResults(results)
+            var arrayOfLocationsDictionaries = results
+
+            // Forum Mentor: Check if a user location exists, if yes, add it to the 100 student locations. If a user location does not exist, then do not add user location to 100 student locations.
+            guard UserLocation.UserData.objectId != "" else {
+                // objectId == "", ignore user location and go straight to inputting 100 student locations that was retrieved into the studentLocationsFromResults
+                arrayOfStudentLocations = StudentLocation.studentLocationsFromResults(arrayOfLocationsDictionaries)
+
+                // Only completionHander that sets 'data' to 'true'
+                completionHandlerForGETStudentLocations(true, "")
+                return
             }
+
+            // UserLocation.UserData.objectId exists, append 1 userLocationDictionary to 100 locations arrayOfStudentLocations:
+            arrayOfLocationsDictionaries.append(UserLocation.userLocationDictionary)
+
+            //  MARK: arrayOfStudentLocations - 100 or 101 locations (101 includes the user's most recent location if it exists)
+            arrayOfStudentLocations = StudentLocation.studentLocationsFromResults(arrayOfLocationsDictionaries)
 
             // Only completionHander that sets 'data' to 'true'
             completionHandlerForGETStudentLocations(true, "")
@@ -200,7 +183,7 @@ extension ParseClient {
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
 
         // backslash before the double quote you want to insert in the String
-        let jsonBody = "{\"uniqueKey\": \"\(UserLocation.DataAtIndexZero.uniqueKey)\", \"firstName\": \"\(UserLocation.DataAtIndexZero.firstName)\", \"lastName\": \"\(UserLocation.DataAtIndexZero.lastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
+        let jsonBody = "{\"uniqueKey\": \"\(UserLocation.UserData.uniqueKey)\", \"firstName\": \"\(UserLocation.UserData.firstName)\", \"lastName\": \"\(UserLocation.UserData.lastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
 
         print("jsonBody for POST: \(jsonBody)")
 
@@ -225,7 +208,7 @@ extension ParseClient {
     func putAStudentLocation(newUserMapString: String, newUserMediaURL: String, newUserLatitude: Double, newUserLongitude: Double, completionHandlerForLocationPUT: @escaping (_ success:Bool, _ error:String) -> Void) {
 
         // backslash before the double quote you want to insert in the String
-        let jsonBody = "{\"uniqueKey\": \"\(UserLocation.DataAtIndexZero.uniqueKey)\", \"firstName\": \"\(UserLocation.DataAtIndexZero.firstName)\", \"lastName\": \"\(UserLocation.DataAtIndexZero.lastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
+        let jsonBody = "{\"uniqueKey\": \"\(UserLocation.UserData.uniqueKey)\", \"firstName\": \"\(UserLocation.UserData.firstName)\", \"lastName\": \"\(UserLocation.UserData.lastName)\",\"mapString\":  \"\(newUserMapString)\", \"mediaURL\": \"\(newUserMediaURL)\",\"latitude\": \(newUserLatitude), \"longitude\":  \(newUserLongitude)}"
 
         print("jsonBody for PUT: \(jsonBody)")
 

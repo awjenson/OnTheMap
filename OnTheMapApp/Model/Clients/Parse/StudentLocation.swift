@@ -51,5 +51,7 @@ struct StudentLocation {
     }
 }
 
+// MARK: Global Variable
 
+var arrayOfStudentLocations = [StudentLocation]()   // Forum mentor's recommendation
 

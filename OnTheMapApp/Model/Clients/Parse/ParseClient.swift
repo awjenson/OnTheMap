@@ -15,26 +15,8 @@ class ParseClient: NSObject {
     // MARK: Singletons
     // your Parse client class is probably set up as a Singleton -- which means that there's guaranteed to be only one ParseClient object in your app -- you can reliably store the StudentInformation structs there, then be able to access them through your MapViewController or your TableViewController using a call like ParseClient.sharedInstance().variableNameprint
     var session = URLSession.shared
-    var arrayOf100LocationDictionaries: [StudentLocation]?
-    var arrayOfUserLocationDictionaries: [UserLocation]?
+    var arrayOfUserLocationDictionaries: [UserLocation]?   // MARK: DO you need this?
 
-    // authentication state
-
-    // The rest of the User Student Location Data to be updated after successful authenticaltion with Udacity
-    // Data to be used to initialize the UserLocation struct.
-    // Udacity Forum Mentor: "To eliminate any possible confusion, why don’t you rename the User Student Location identifiers. How about pre-pending each name with ‘user’. Thus: ‘objectID’ becomes ‘userObjectID’, etc."
-
-    // MARK: TODO - Since this is reaplced by UserLocation at index 0, don't sue these anymore
-    // User studentLocation information properties
-    static var userObjectID = "" // updated with the user's Student Location unique ID from Parse
-    static var userUniqueKey = UdacityClient.sharedInstance().accountKey
-    static var userCreatedAt = ""
-    static var userFirstName = UdacityClient.sharedInstance().firstName
-    static var userLastName = UdacityClient.sharedInstance().lastName
-    static var userLatitude = 0.0
-    static var userLongitude = 0.0
-    static var userMapString = ""
-    static var userMediaURL = ""
 
     // GET
 
@@ -133,10 +115,10 @@ class ParseClient: NSObject {
     // MARK: PUT a Student Location
     func taskForPUTMethod(jsonBody: String, completionHandlerForPUT: @escaping (_ data: Data?, _ error: Error?) -> Void) -> URLSessionDataTask {
 
-        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation/\(UserLocation.DataAtIndexZero.objectId)"
+        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation/\(UserLocation.UserData.objectId)"
 
         print("urlString for PUT: \(urlString)")
-        print("User Object ID for PUT: \(UserLocation.DataAtIndexZero.objectId)")
+        print("User Object ID for PUT: \(UserLocation.UserData.objectId)")
 
         let url = URL(string: urlString)
         var request = URLRequest(url: url!)
