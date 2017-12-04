@@ -23,33 +23,15 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        // use sharedinstance() because it's a singleton
-//        userLocation = ParseClient.sharedInstance().arrayOfUserLocationDictionaries
-//
-//        // GUARD: studentLocations is an optional, check if there is data?
-//        guard userLocation != nil else {
-//            print("Error: No data found in studentLocations (MapViewController)")
-//            return
-//        }
-//
-//        // This is an array of studentLocations (struct StudentLocation)
-//        for user in userLocation! {
-//
-//            if user.mapString == "" {
-//                userMapString = user.mapString
-//            } else {
-//                userMapString = user.mapString
-//            }
-//        }
     }
 
 
     @IBAction func logoutButtonTapped(_ sender: UIBarButtonItem) {
+
         UdacityClient.sharedInstance().taskForDeleteSession()
 
         performUIUpdatesOnMain {
-            let controller = self.storyboard!.instantiateViewController(withIdentifier: "LoginViewController")
-            self.present(controller, animated: true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 

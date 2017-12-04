@@ -15,10 +15,10 @@ class ParseClient: NSObject {
     // MARK: Singletons
     // your Parse client class is probably set up as a Singleton -- which means that there's guaranteed to be only one ParseClient object in your app -- you can reliably store the StudentInformation structs there, then be able to access them through your MapViewController or your TableViewController using a call like ParseClient.sharedInstance().variableNameprint
     var session = URLSession.shared
-    var arrayOfUserLocationDictionaries: [UserLocation]?   // MARK: DO you need this?
+//    var arrayOfUserLocationDictionaries: [UserLocation]?   // MARK: DO you need this?
 
 
-    // GET
+    // GET A Student Location (User)
 
     func taskForGETAStudentLocation (completionHandlerForGETAStudentLocation: @escaping (_ data: Data?, _ error: Error?) -> Void) {
 
@@ -67,6 +67,8 @@ class ParseClient: NSObject {
         }
         task.resume()
     }
+
+    // GET Student Locations (100)
 
 
     func taskForGETStudentLocations(completionHandlerForGETStudentLocations:@escaping (_ data: Data?, _ error: Error?) -> Void) {

@@ -150,6 +150,15 @@ class UdacityClient: NSObject {
             print(String(data: newData!, encoding: .utf8)!)
 
             print("User has Successfully Logged Out")
+
+            // TODO: MARK: Remove User Data After Successfully Logged Out
+            // After successfully logged out, remove all data (both User Data and Student Locations)
+
+//            // https://bendodson.com/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/
+//            UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+//            UserDefaults.standard.synchronize()
+
+            print("Print uniqueKey (should be erased after logout): \(UserLocation.UserData.uniqueKey)")
         }
         task.resume()
     }

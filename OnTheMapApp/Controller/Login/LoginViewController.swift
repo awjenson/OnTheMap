@@ -41,6 +41,9 @@ class LoginViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         unsubscribeFromKeyboardNotifications()
+
+        // After login is complete, clear out Login Screen data in preparation for future Logout
+        enableUI()
     }
 
     // MARK: - Actions
@@ -106,18 +109,19 @@ class LoginViewController: UIViewController {
                             self.createAlert(title: "Error", message: "Unable to obtain Student Location data.")
                             self.enableUI()
                         }
-
                         return
                     }
 
-                    // received Udacity Public User Data, check if there's an existing student location by checking if there is an existing objectId.
-
-                    // MARK: check/guard if UserLocation.UserData.objectId =! "", then a student location already exists and was retrieved
-                    guard (UserLocation.UserData.objectId != "") else {
-                        // objectId == "", so a student location does not already exist
-
-                        return
-                    }
+//                    // received Udacity Public User Data, check if there's an existing student location by checking if there is an existing objectId.
+//
+//                    // **********************************************
+//
+//                    // MARK: check/guard if UserLocation.UserData.objectId =! "", then a student location already exists and was retrieved
+//                    guard (UserLocation.UserData.objectId != "") else {
+//                        print("UserLocation.UserData.objectId is BLANK: \(UserLocation.UserData.objectId)")
+//                        // objectId == "", so a student location does not already exist
+//                        return
+//                    }
 
                     // MARK: if UserLocation.UserData.objectId != ""  a student location was retrieved
                     print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")

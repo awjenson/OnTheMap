@@ -49,14 +49,16 @@ extension ParseClient {
             guard !(results.isEmpty) else {
                 // MARK: populate user student location with objectId = ""
                 UserLocation.UserData.objectId = ""
-                print("USER LOCATION 'results' value should be an empty array: \(results)")
+                print("USER LOCATION 'results' value should be an empty array ([]): \(results)")
+                print("UserLocation.UserData.objectId set == to \"\"")
+
                 completionHandlerForGETAStudentLocation(true, "")
                 return
             }
 
             // objectId exists. Store user location data into UserLocation.UserData
 
-            print("USER LOCATION RESULT: \(results)")
+            print("USER LOCATION RESULT (objectId exists): \(results)")
 
             // NOTE: We don't need to parse uniqueKey, firstName, and lastName because we already retrieved them fro Udacity's API
 
@@ -152,11 +154,16 @@ extension ParseClient {
             print("")
             print("")
 
+
             var arrayOfLocationsDictionaries = results
 
             // Forum Mentor: Check if a user location exists, if yes, add it to the 100 student locations. If a user location does not exist, then do not add user location to 100 student locations.
             guard UserLocation.UserData.objectId != "" else {
+
                 // objectId == "", ignore user location and go straight to inputting 100 student locations that was retrieved into the studentLocationsFromResults
+                print("User's objectId does NOT exist [\(UserLocation.UserData.objectId)], store 100 student locations")
+
+                // MARK: Store 100 Student Locations (User has not posted a location yet)
                 arrayOfStudentLocations = StudentLocation.studentLocationsFromResults(arrayOfLocationsDictionaries)
 
                 // Only completionHander that sets 'data' to 'true'
@@ -165,10 +172,16 @@ extension ParseClient {
             }
 
             // UserLocation.UserData.objectId exists, append 1 userLocationDictionary to 100 locations arrayOfStudentLocations:
-            arrayOfLocationsDictionaries.append(UserLocation.userLocationDictionary)
+            print("User's objectId DOES exist [\(UserLocation.UserData.objectId)]. Append Existing User Location to top of 100 Student Locations")
+            arrayOfLocationsDictionaries.insert(UserLocation.userLocationDictionary, at: 0)
 
-            //  MARK: arrayOfStudentLocations - 100 or 101 locations (101 includes the user's most recent location if it exists)
+            //  MARK: Store 101 Student locations (includes 1 User Location)
             arrayOfStudentLocations = StudentLocation.studentLocationsFromResults(arrayOfLocationsDictionaries)
+
+            print("")
+            print("arrayOfStudentLocations")
+            print(arrayOfStudentLocations)
+            print("")
 
             // Only completionHander that sets 'data' to 'true'
             completionHandlerForGETStudentLocations(true, "")

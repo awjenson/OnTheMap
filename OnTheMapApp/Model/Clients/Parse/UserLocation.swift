@@ -64,19 +64,6 @@ struct UserLocation {
         "mediaURL": UserData.mediaURL as AnyObject
     ]
 
-    struct DataWhenStudentLocationIsEmpty {
-
-
-
-    }
-
-    struct NewUserLocation {
-        static var mapString = ""
-        static var mediaURL = ""
-        static var latitude = 0.0
-        static var longitude = 0.0
-    }
-
 
     // Given an array of dictionaries, convert them to an array of StudentLocation objects
     static func userLocationFromResults(_ results: [[String:AnyObject]]) -> [UserLocation] {
@@ -91,5 +78,12 @@ struct UserLocation {
         return userLocations
     }
 
+    // MARK: New User Location - For When User Adds a New Location
+    struct NewUserLocation {
+        static var mapString = ""
+        static var mediaURL = ""
+        static var latitude = 0.0
+        static var longitude = 0.0
+    }
 }
 
