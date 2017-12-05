@@ -20,6 +20,19 @@ extension UIViewController {
         }))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: URL Can Open
+    func verifyUrl (urlString: String?) -> Bool {
+        
+        let app = UIApplication.shared
+        
+        if let urlString = urlString {
+            if let url  = NSURL(string: urlString) {
+                return app.canOpenURL(url as URL)
+            }
+        }
+        return false
+    }
 
 
     // MARK: Keyboard Methods

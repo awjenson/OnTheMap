@@ -85,5 +85,5 @@ struct UserLocation {
         static var latitude = 0.0
         static var longitude = 0.0
     }
-}
+}   // UserLocation
 

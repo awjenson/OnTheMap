@@ -11,7 +11,7 @@ import UIKit
 class ListTableViewController: UITableViewController {
 
     // MARK: - Properties
-    var studentLocations: [StudentLocation]?  // var because this data can be refreshed
+    var studentLocations = arrayOfStudentLocations  // var because this data can be refreshed
 
     // MARK: Outlets
 
@@ -25,13 +25,6 @@ class ListTableViewController: UITableViewController {
         // use sharedinstance() because it's a singleton
         // Forum Mentor: "arrayOfStudentLocations is given a value in a background thread. Make sure you dispatch that on the main thread."
 
-        self.studentLocations = arrayOfStudentLocations
-
-        // GUARD: studentLocations is an optional, check if there is data?
-        guard studentLocations != nil else {
-            print("Error: No data found in studentLocations (MapViewController)")
-            return
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -57,7 +50,7 @@ class ListTableViewController: UITableViewController {
 
         /* Get cell type */
         let cellReuseIdentifier = "ListTableViewCell"
-        let studentLocation = studentLocations![indexPath.row]
+        let studentLocation = studentLocations[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as UITableViewCell!
 
         /* Set cell defaults */
@@ -73,21 +66,27 @@ class ListTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return studentLocations!.count
+        return studentLocations.count
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         // Open mediaURL
         let app = UIApplication.shared
-        let url = studentLocations![indexPath.row].mediaURL
+        let url = studentLocations[indexPath.row].mediaURL
         //app.openURL(URL(string: toOpen)!)
-
-        app.open(URL(string:url)!, options: [:], completionHandler: { (success) in
-            if !success {
-                self.createAlert(title: "Invalid URL", message: "Could not open URL")
+        
+        // print: true or false
+        print("verifyURL: \(verifyUrl(urlString: url))")
+        
+        if verifyUrl(urlString: url) == true {
+            app.open(URL(string:url)!)
+        } else {
+            // if verifyURL == false
+            performUIUpdatesOnMain {
+                self.createAlert(title: "Invalid URL", message: "Could not open URL. URL may be invalid.")
             }
-        })
+        }
     }
 
 }

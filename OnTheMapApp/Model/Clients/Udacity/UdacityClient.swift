@@ -151,7 +151,6 @@ class UdacityClient: NSObject {
 
             print("User has Successfully Logged Out")
 
-            print("Print uniqueKey (should be erased after logout): \(UserLocation.UserData.uniqueKey)")
         }
         task.resume()
     }

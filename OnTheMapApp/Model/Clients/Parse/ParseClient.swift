@@ -15,7 +15,6 @@ class ParseClient: NSObject {
     // MARK: Singletons
     // your Parse client class is probably set up as a Singleton -- which means that there's guaranteed to be only one ParseClient object in your app -- you can reliably store the StudentInformation structs there, then be able to access them through your MapViewController or your TableViewController using a call like ParseClient.sharedInstance().variableNameprint
     var session = URLSession.shared
-//    var arrayOfUserLocationDictionaries: [UserLocation]?   // MARK: DO you need this?
 
 
     // GET A Student Location (User)
@@ -68,8 +67,8 @@ class ParseClient: NSObject {
         task.resume()
     }
 
+    
     // GET Student Locations (100)
-
 
     func taskForGETStudentLocations(completionHandlerForGETStudentLocations:@escaping (_ data: Data?, _ error: Error?) -> Void) {
 
@@ -90,15 +89,6 @@ class ParseClient: NSObject {
                 sendError("There was an error with your request: \(error!)")
                 return
             }
-            
-//            if error != nil { // Handle error...
-//
-//                print("taskForGETStudentLocations: \(String(describing: error))")
-//
-//
-//                completionHandlerForGETStudentLocations(nil, error)
-//                return
-//            }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
@@ -131,11 +121,32 @@ class ParseClient: NSObject {
         request.httpBody = jsonBody.data(using: .utf8)
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
-            if error != nil { // Handle error…
-                print("Error: no data found from taskForPOSTMethod's task")
+            
+            func sendError(_ error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForPOST(nil, NSError(domain: "taskForPOSTMethod", code: 1, userInfo: userInfo))
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error!)")
                 return
             }
-            print(String(data: data!, encoding: .utf8)!)
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                sendError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            print(String(data: data, encoding: .utf8)!)
 
             completionHandlerForPOST(data, nil)
         }
@@ -161,15 +172,35 @@ class ParseClient: NSObject {
         request.httpBody = jsonBody.data(using: .utf8)
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
-            if error != nil { // Handle error…
-                print("Error: no data found from taskForPUTMethod's task")
+            
+            func sendError(_ error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForPUT(nil, NSError(domain: "taskForPOSTMethod", code: 1, userInfo: userInfo))
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error!)")
                 return
             }
-            print(String(data: data!, encoding: .utf8)!)
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                sendError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            print(String(data: data, encoding: .utf8)!)
 
             //
             completionHandlerForPUT(data, nil)
-
         }
         task.resume()
         return task
@@ -230,6 +261,9 @@ class ParseClient: NSObject {
         }
         return Singleton.sharedInstance
     }
+    
+    
+    
 
 }
 

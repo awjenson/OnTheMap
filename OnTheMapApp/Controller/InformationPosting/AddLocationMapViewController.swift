@@ -21,7 +21,6 @@ import CoreLocation
 
 class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
-
     // MARK: - IBOutlets
 
     @IBOutlet weak var finishButton: UIButton!
@@ -57,7 +56,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
-
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -173,14 +173,15 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
                 app.open(URL(string:url)!, options: [:], completionHandler: { (success) in
                     if !success {
+                        print("did we get inside !sucess for URL?")
                         self.createAlert(title: "Invalid URL", message: "Could not open URL")
                     }
                 })
             }
         } else {
             print("Error: mapView calloutAccessoryControlTapped control is not working. Cannot transition to web browser.")
-            createAlert(title: "Error", message: "Could not transition to web browser. Re-try URL.")
-        }
+            createAlert(title: "Error", message: "Could not transition to web browser. Re-try URL. Otherwise, URL may not be valid.")
+        } 
     }
 
 
@@ -205,27 +206,32 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+    // MARK: - Methods
+    
     func callPostToStudentLocation() {
         ParseClient.sharedInstance().postAStudentLocation(newUserMapString: newLocation, newUserMediaURL: newURL, newUserLatitude: newLatitude, newUserLongitude: newLongitude, completionHandlerForLocationPOST: { (success, errorString) in
 
             guard (success == true) else {
                 // display the errorString using createAlert
                 print("Unsuccessful in POSTing user location: \(errorString)")
-                
                 performUIUpdatesOnMain {
-                    self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse.")
+                    self.spinner.stopAnimating()
+                    self.createAlert(title: "Error", message: "Unable to add new location. The Internet connection appears to be offline.")
                 }
                 return
             }
             print("Successfully POST user location.")
 
+            
             // .getAStudentLocation() is located in ParseConvenience
             ParseClient.sharedInstance().getAStudentLocation() { (success, errorString) in
                 guard (success == true) else {
+                    
                     // display the errorString using createAlert
                     print("Unsuccessful in obtaining A Student Location from Parse: \(errorString)")
                     performUIUpdatesOnMain {
-                        self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse.")
+                        self.spinner.stopAnimating()
+                        self.createAlert(title: "Error", message: "Failure to download user location data.")
                     }
                     return
                 }
@@ -242,7 +248,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                         // The app gracefully handles a failure to download student locations.
                         print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
                         performUIUpdatesOnMain {
-                            self.createAlert(title: "Error", message: "Failure to download student locations data")
+                            self.spinner.stopAnimating()
+                            self.createAlert(title: "Error", message: "Failure to download student locations data.")
                         }
                         return
                     }
@@ -262,13 +269,13 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
             guard (success == true) else {
                 // display the errorString using createAlert
-                print("Unsuccessful in obtaining User Name from Udacity Public User Data: \(errorString)")
+                print("callPutToStudentLocation: Unsuccessful in obtaining User Name from Udacity Public User Data: \(errorString)")
                 performUIUpdatesOnMain {
-                    self.createAlert(title: "Error", message: "PUT attempt did not result in a 'success' in putting user location to Parse.")
+                    self.spinner.stopAnimating()
+                    self.createAlert(title: "Error", message: "Unable to add new location. The Internet connection appears to be offline.")
                 }
                 return
             }
-
 
             print("Successfully PUT user location.")
 
@@ -278,7 +285,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                     // display the errorString using createAlert
                     print("Unsuccessful in obtaining A Student Location from Parse: \(errorString)")
                     performUIUpdatesOnMain {
-                        self.createAlert(title: "Error", message: "Unable to obtain Student Location data")
+                        self.spinner.stopAnimating()
+                        self.createAlert(title: "Error", message: "Failure to download user location data.")
                     }
                     return
                 }
@@ -295,7 +303,8 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                         // The app gracefully handles a failure to download student locations.
                         print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
                         performUIUpdatesOnMain {
-                            self.createAlert(title: "Error", message: "Failure to download student locations data")
+                            self.spinner.stopAnimating()
+                            self.createAlert(title: "Error", message: "Failure to download student locations data.")
                         }
                         return
                     }

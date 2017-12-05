@@ -75,7 +75,7 @@ class AddLocationViewController: UIViewController {
         }
         guard let url = enterURLTextField.text, url != "", url.hasPrefix("https://") else {
             print("URL is empty")
-            createAlert(title: "Error", message: "Please enter a URL that starts with 'https://'")
+            createAlert(title: "Error", message: "Invalid URL. Please enter a URL that starts with 'https://'")
             return
         }
 
@@ -101,13 +101,31 @@ class AddLocationViewController: UIViewController {
 
         let geocoder = CLGeocoder()
         // your location gets called by geocodeAddressString()
+        
+        
         geocoder.geocodeAddressString(location) {
-            placemarks, error in
+            (placemarks, error) in
+            
+            // Guard: no Internet connection
+            print("getCordinatesFromLocation error \(String(describing: error))")
+            
+            guard (error == nil) else {
+                
+                print("Print Error: \(String(describing: error!.localizedDescription))")
+                
+                self.createAlert(title: "Error", message: "Could not calculate coordinates. Check your Internet connection.")
+                self.spinner.stopAnimating()
+                self.enableUI()
+                return
+            }
+            
             let placemark = placemarks?.first
 
             guard let placemarkLatitude = placemark?.location?.coordinate.latitude else {
                 print("could not calculate latitude coordinate from geocodeAddressString")
                 self.createAlert(title: "Error", message: "Could not calculate latitude coordinate. Re-try location.")
+                self.spinner.stopAnimating()
+                self.enableUI()
                 return
             }
 
@@ -116,6 +134,8 @@ class AddLocationViewController: UIViewController {
             guard let placemarkLongitude = placemark?.location?.coordinate.longitude else {
                 print("could not calculate longitude coordinate from geocodeAddressString")
                 self.createAlert(title: "Error", message: "Could not calculate longitude coordinate. Re-try location.")
+                self.spinner.stopAnimating()
+                self.enableUI()
                 return
             }
 

@@ -13,7 +13,7 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: - Properties
-    var studentLocations: [StudentLocation]?  // var because this data can be refreshed
+    var studentLocations = arrayOfStudentLocations  // var because this data can be refreshed
     var annotations = [MKPointAnnotation]()
 
     // MARK: - Outlets
@@ -54,13 +54,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Populate the mapView with 100 pins:
         // use sharedinstance() because it's a singleton
         // Forum Mentor: "arrayOfStudentLocations is given a value in a background thread. Make sure you dispatch that on the main thread."
-        self.studentLocations = arrayOfStudentLocations
-
-        // GUARD: studentLocations is an optional, check if there is data?
-        guard studentLocations != nil else {
-            print("Error: No data found in studentLocations (MapViewController)")
-            return
-        }
 
         self.mapView.removeAnnotations(mapView.annotations)
 
@@ -73,7 +66,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // used to create custom structs. Perhaps StudentLocation structs.
 
         // This is an array of studentLocations (struct StudentLocation)
-        for student in studentLocations! {
+        for student in studentLocations {
 
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
@@ -110,14 +103,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Populate the mapView with 100 pins:
         // use sharedinstance() because it's a singleton
         // Forum Mentor: "arrayOfStudentLocations is given a value in a background thread. Make sure you dispatch that on the main thread."
-        self.studentLocations = arrayOfStudentLocations
-
-
-        // GUARD: studentLocations is an optional, check if there is data?
-        guard studentLocations != nil else {
-            print("Error: No data found in studentLocations (MapViewController)")
-            return
-        }
 
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
@@ -128,7 +113,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // used to create custom structs. Perhaps StudentLocation structs.
 
         // This is an array of studentLocations (struct StudentLocation)
-        for student in studentLocations! {
+        for student in studentLocations {
 
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
@@ -214,16 +199,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
             if let url = view.annotation?.subtitle! {
-
-                app.open(URL(string:url)!, options: [:], completionHandler: { (success) in
-                    if !success {
+                
+                // print: true or false
+                print("verifyURL: \(verifyUrl(urlString: url))")
+                
+                if verifyUrl(urlString: url) == true {
+                    app.open(URL(string:url)!)
+                } else {
+                    performUIUpdatesOnMain {
                         self.createAlert(title: "Invalid URL", message: "Could not open URL")
                     }
-                })
+                }
             }
-        }
+        } // if control
     }
-
 }
 
 
