@@ -20,6 +20,11 @@ extension ParseClient {
         taskForGETAStudentLocation() {  (data, error) in
             // MARK - extract first_name and Last_name from the parsed result and store the in:
 
+            guard (error == nil) else {
+                print("Error from taskForGETAStudentLocation: \(String(describing: error?.localizedDescription))")
+                return
+            }
+            
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 // if no data then print error and set completionHandler for data as false
@@ -115,14 +120,21 @@ extension ParseClient {
 
     // MARK: GET Convenience method for extracting first name and last name from public user data
     func getStudentLocations(completionHandlerForGETStudentLocations: @escaping (_ success:Bool, _ error:String)->Void) {
-
+        
+        print("Are we inside getStudentLocations(completionHandlerForGETStudentLocations: @escaping closure?")
+        
         let _ = taskForGETStudentLocations() {  (data, error) in
             // Call taskForGETStudentLocations (from ParseClient) and parse the JSON data
             // "uniqueKey": an extra (optional) key used to uniquely identify a StudentLocation; you should populate this value using your Udacity account id
 
+            print("Are we inside let _ = taskForGETStudentLocations() closure?")
+            
+            print("errorString in getStudentLocations closure: \(String(describing: error))")
+            print("data: \(String(describing: data))")
             // MARK - extract first_name and Last_name from the parsed result and store the in:
             /* GUARD: Was there any data returned? */
             guard let data = data else {
+                print("Error from taskForGETAStudentLocation: \(String(describing: error?.localizedDescription))")
                 completionHandlerForGETStudentLocations(false, "No raw JSON data available to attempt JSONSerialization.")
                 return
             }

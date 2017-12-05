@@ -49,22 +49,28 @@ class TabBarViewController: UITabBarController {
 
         // MARK: Get 100 student locations from Parse
         ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
-
-            guard (success == success) else {
+            
+            print("Are we inside ParseClient.sharedInstance().getStudentLocations() closure?")
+            print("errorString in roadBarButton closure: \(errorString)")
+            
+            guard (success == true) else {
                 // display the errorString using createAlert
                 // The app gracefully handles a failure to download student locations.
                 print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
-                self.createAlert(title: "Error", message: "Failure to download student locations data")
+                
+                performUIUpdatesOnMain {
+                    self.createAlert(title: "Error", message: "Failure to download student locations data. The Internet connection appears to be offline.")
+                }
                 return
             }
-
+            
             performUIUpdatesOnMain {
                 // update UI in MapViewController and ListTableViewController
                 print("Refresh UI")
                 mapViewController.displayUpdatedAnnotations()
                 listTableViewController.refreshTableView()
             }
-        }
+        } // end of getStudentLocations closure
     }
 
     // MARK: - Navigation

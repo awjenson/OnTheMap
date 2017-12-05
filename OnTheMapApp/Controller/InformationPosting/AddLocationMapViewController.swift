@@ -208,20 +208,25 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     func callPostToStudentLocation() {
         ParseClient.sharedInstance().postAStudentLocation(newUserMapString: newLocation, newUserMediaURL: newURL, newUserLatitude: newLatitude, newUserLongitude: newLongitude, completionHandlerForLocationPOST: { (success, errorString) in
 
-            guard (success == success) else {
+            guard (success == true) else {
                 // display the errorString using createAlert
                 print("Unsuccessful in POSTing user location: \(errorString)")
-                self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse.")
+                
+                performUIUpdatesOnMain {
+                    self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse.")
+                }
                 return
             }
             print("Successfully POST user location.")
 
             // .getAStudentLocation() is located in ParseConvenience
             ParseClient.sharedInstance().getAStudentLocation() { (success, errorString) in
-                guard (success == success) else {
+                guard (success == true) else {
                     // display the errorString using createAlert
                     print("Unsuccessful in obtaining A Student Location from Parse: \(errorString)")
-                    self.createAlert(title: "Error", message: "Unable to obtain Student Location data")
+                    performUIUpdatesOnMain {
+                        self.createAlert(title: "Error", message: "POST attempt did not result in a 'success' in putting user location to Parse.")
+                    }
                     return
                 }
                 print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
@@ -232,11 +237,13 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                 // MARK: Get 100 student locations from Parse
                 ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
 
-                    guard (success == success) else {
+                    guard (success == true) else {
                         // display the errorString using createAlert
                         // The app gracefully handles a failure to download student locations.
                         print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
-                        self.createAlert(title: "Error", message: "Failure to download student locations data")
+                        performUIUpdatesOnMain {
+                            self.createAlert(title: "Error", message: "Failure to download student locations data")
+                        }
                         return
                     }
                     print("Successfully obtained Student Locations data from Parse")
@@ -253,10 +260,12 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     func callPutToStudentLocation() {
         ParseClient.sharedInstance().putAStudentLocation(newUserMapString: newLocation, newUserMediaURL: newURL, newUserLatitude: newLatitude, newUserLongitude: newLongitude, completionHandlerForLocationPUT: { (success, errorString) in
 
-            guard (success == success) else {
+            guard (success == true) else {
                 // display the errorString using createAlert
                 print("Unsuccessful in obtaining User Name from Udacity Public User Data: \(errorString)")
-                self.createAlert(title: "Error", message: "PUT attempt did not result in a 'success' in putting user location to Parse.")
+                performUIUpdatesOnMain {
+                    self.createAlert(title: "Error", message: "PUT attempt did not result in a 'success' in putting user location to Parse.")
+                }
                 return
             }
 
@@ -265,10 +274,12 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
 
             // .getAStudentLocation() is located in ParseConvenience
             ParseClient.sharedInstance().getAStudentLocation() { (success, errorString) in
-                guard (success == success) else {
+                guard (success == true) else {
                     // display the errorString using createAlert
                     print("Unsuccessful in obtaining A Student Location from Parse: \(errorString)")
-                    self.createAlert(title: "Error", message: "Unable to obtain Student Location data")
+                    performUIUpdatesOnMain {
+                        self.createAlert(title: "Error", message: "Unable to obtain Student Location data")
+                    }
                     return
                 }
                 print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
@@ -279,11 +290,13 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
                 // MARK: Get 100 student locations from Parse
                 ParseClient.sharedInstance().getStudentLocations() { (success, errorString) in
 
-                    guard (success == success) else {
+                    guard (success == true) else {
                         // display the errorString using createAlert
                         // The app gracefully handles a failure to download student locations.
                         print("Unsuccessful in obtaining Student Locations from Parse: \(errorString)")
-                        self.createAlert(title: "Error", message: "Failure to download student locations data")
+                        performUIUpdatesOnMain {
+                            self.createAlert(title: "Error", message: "Failure to download student locations data")
+                        }
                         return
                     }
                     print("Successfully obtained Student Locations data from Parse")

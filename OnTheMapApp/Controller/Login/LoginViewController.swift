@@ -112,16 +112,6 @@ class LoginViewController: UIViewController {
                         return
                     }
 
-//                    // received Udacity Public User Data, check if there's an existing student location by checking if there is an existing objectId.
-//
-//                    // **********************************************
-//
-//                    // MARK: check/guard if UserLocation.UserData.objectId =! "", then a student location already exists and was retrieved
-//                    guard (UserLocation.UserData.objectId != "") else {
-//                        print("UserLocation.UserData.objectId is BLANK: \(UserLocation.UserData.objectId)")
-//                        // objectId == "", so a student location does not already exist
-//                        return
-//                    }
 
                     // MARK: if UserLocation.UserData.objectId != ""  a student location was retrieved
                     print("Successfully obtained Student Location data from Parse (This is printed after 'Get A SINGLE Student location from Parse')")
