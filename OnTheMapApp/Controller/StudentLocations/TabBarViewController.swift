@@ -30,6 +30,8 @@ class TabBarViewController: UITabBarController {
 
         UdacityClient.sharedInstance().taskForDeleteSession()
 
+
+
         performUIUpdatesOnMain {
             self.dismiss(animated: true, completion: nil)
         }

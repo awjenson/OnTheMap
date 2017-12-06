@@ -151,8 +151,30 @@ class UdacityClient: NSObject {
 
             print("User has Successfully Logged Out")
 
+            // clear out all user data after successful logout
+            self.clearUserData()
         }
         task.resume()
+    }
+
+    func clearUserData() {
+        // clear out all user data after successful logout
+        arrayOfStudentLocations = []
+
+        UserLocation.NewUserLocation.latitude = 0.0
+        UserLocation.NewUserLocation.longitude = 0.0
+        UserLocation.NewUserLocation.mapString = ""
+        UserLocation.NewUserLocation.mediaURL = ""
+
+        UserLocation.UserData.firstName = ""
+        UserLocation.UserData.lastName = ""
+        UserLocation.UserData.objectId = ""
+        UserLocation.UserData.uniqueKey = ""
+        UserLocation.UserData.mapString = ""
+        UserLocation.UserData.mediaURL = ""
+
+        UserLocation.userLocationDictionary = [:]
+
     }
 
 
